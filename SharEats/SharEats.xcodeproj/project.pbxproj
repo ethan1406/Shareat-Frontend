@@ -97,11 +97,9 @@
 		024C99FE2077FA8300227D13 /* SharEats */ = {
 			isa = PBXGroup;
 			children = (
-				024C99FF2077FA8300227D13 /* AppDelegate.swift */,
-				024C9A012077FA8300227D13 /* ViewController.swift */,
-				024C9A032077FA8300227D13 /* Main.storyboard */,
-				024C9A062077FA8300227D13 /* Assets.xcassets */,
-				024C9A082077FA8300227D13 /* LaunchScreen.storyboard */,
+				024C9A2E2077FC3E00227D13 /* Others */,
+				024C9A2F2077FC5100227D13 /* ViewControllers */,
+				024C9A2D2077FBE500227D13 /* Storyboard */,
 				024C9A0B2077FA8300227D13 /* Info.plist */,
 			);
 			path = SharEats;
@@ -123,6 +121,32 @@
 				024C9A212077FA8400227D13 /* Info.plist */,
 			);
 			path = SharEatsUITests;
+			sourceTree = "<group>";
+		};
+		024C9A2D2077FBE500227D13 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				024C9A082077FA8300227D13 /* LaunchScreen.storyboard */,
+				024C9A032077FA8300227D13 /* Main.storyboard */,
+			);
+			name = Storyboard;
+			sourceTree = "<group>";
+		};
+		024C9A2E2077FC3E00227D13 /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				024C99FF2077FA8300227D13 /* AppDelegate.swift */,
+				024C9A062077FA8300227D13 /* Assets.xcassets */,
+			);
+			name = Others;
+			sourceTree = "<group>";
+		};
+		024C9A2F2077FC5100227D13 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				024C9A012077FA8300227D13 /* ViewController.swift */,
+			);
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
