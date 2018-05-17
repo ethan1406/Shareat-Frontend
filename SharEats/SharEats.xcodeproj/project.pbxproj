@@ -13,6 +13,8 @@
 		024C9A0A2077FA8300227D13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 024C9A082077FA8300227D13 /* LaunchScreen.storyboard */; };
 		024C9A152077FA8300227D13 /* SharEatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024C9A142077FA8300227D13 /* SharEatsTests.swift */; };
 		024C9A202077FA8400227D13 /* SharEatsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024C9A1F2077FA8400227D13 /* SharEatsUITests.swift */; };
+		02BD829E20AAE11C00B504D0 /* NearbyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BD829D20AAE11C00B504D0 /* NearbyVC.swift */; };
+		02BD82A120AAE50B00B504D0 /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BD82A020AAE50B00B504D0 /* Restaurant.swift */; };
 		02F2413120891F8900743FFD /* TabBar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02F2413020891F8900743FFD /* TabBar.storyboard */; };
 		02F2413320891FDE00743FFD /* Nearby.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02F2413220891FDE00743FFD /* Nearby.storyboard */; };
 		02F241352089200800743FFD /* Menu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02F241342089200800743FFD /* Menu.storyboard */; };
@@ -52,6 +54,8 @@
 		024C9A1B2077FA8400227D13 /* SharEatsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SharEatsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		024C9A1F2077FA8400227D13 /* SharEatsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharEatsUITests.swift; sourceTree = "<group>"; };
 		024C9A212077FA8400227D13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		02BD829D20AAE11C00B504D0 /* NearbyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyVC.swift; sourceTree = "<group>"; };
+		02BD82A020AAE50B00B504D0 /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		02F2413020891F8900743FFD /* TabBar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabBar.storyboard; sourceTree = "<group>"; };
 		02F2413220891FDE00743FFD /* Nearby.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Nearby.storyboard; sourceTree = "<group>"; };
 		02F241342089200800743FFD /* Menu.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Menu.storyboard; sourceTree = "<group>"; };
@@ -109,6 +113,7 @@
 		024C99FE2077FA8300227D13 /* SharEats */ = {
 			isa = PBXGroup;
 			children = (
+				02BD829F20AAE4F400B504D0 /* Model */,
 				024C9A2E2077FC3E00227D13 /* Others */,
 				024C9A2F2077FC5100227D13 /* ViewControllers */,
 				024C9A2D2077FBE500227D13 /* Storyboard */,
@@ -163,8 +168,17 @@
 			isa = PBXGroup;
 			children = (
 				02F2413C2089226F00743FFD /* MainVC.swift */,
+				02BD829D20AAE11C00B504D0 /* NearbyVC.swift */,
 			);
 			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		02BD829F20AAE4F400B504D0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				02BD82A020AAE50B00B504D0 /* Restaurant.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -307,8 +321,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02BD82A120AAE50B00B504D0 /* Restaurant.swift in Sources */,
 				024C9A002077FA8300227D13 /* AppDelegate.swift in Sources */,
 				02F2413D2089226F00743FFD /* MainVC.swift in Sources */,
+				02BD829E20AAE11C00B504D0 /* NearbyVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
