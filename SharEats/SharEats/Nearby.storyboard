@@ -58,17 +58,24 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="VSQ-py-sDu">
+                                <rect key="frame" x="0.0" y="48" width="375" height="570"/>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="LoL-Al-SZv" firstAttribute="centerX" secondItem="NzN-ZK-OQG" secondAttribute="centerX" id="3YZ-wk-DfB"/>
                             <constraint firstItem="LoL-Al-SZv" firstAttribute="top" secondItem="lps-Ab-2ql" secondAttribute="top" id="81i-XU-hZv"/>
+                            <constraint firstItem="lps-Ab-2ql" firstAttribute="bottom" secondItem="VSQ-py-sDu" secondAttribute="bottom" id="Cad-Q2-ptd"/>
                             <constraint firstItem="N0u-1c-2VZ" firstAttribute="bottom" secondItem="lps-Ab-2ql" secondAttribute="bottom" id="GdL-yd-sBh"/>
                             <constraint firstItem="N0u-1c-2VZ" firstAttribute="top" secondItem="LoL-Al-SZv" secondAttribute="bottom" id="W22-Mt-jT2"/>
                             <constraint firstItem="LoL-Al-SZv" firstAttribute="trailing" secondItem="lps-Ab-2ql" secondAttribute="trailing" id="Zfg-7h-8WL"/>
+                            <constraint firstItem="VSQ-py-sDu" firstAttribute="leading" secondItem="lps-Ab-2ql" secondAttribute="leading" id="ckH-Tp-x6y"/>
                             <constraint firstItem="N0u-1c-2VZ" firstAttribute="trailing" secondItem="lps-Ab-2ql" secondAttribute="trailing" id="d3C-Vz-5Bx"/>
                             <constraint firstItem="LoL-Al-SZv" firstAttribute="leading" secondItem="lps-Ab-2ql" secondAttribute="leading" id="fCp-H9-3vw"/>
+                            <constraint firstItem="VSQ-py-sDu" firstAttribute="top" secondItem="LoL-Al-SZv" secondAttribute="bottom" id="hw7-X5-yXw"/>
                             <constraint firstItem="N0u-1c-2VZ" firstAttribute="leading" secondItem="lps-Ab-2ql" secondAttribute="leading" id="iRv-J7-UfI"/>
+                            <constraint firstItem="lps-Ab-2ql" firstAttribute="trailing" secondItem="VSQ-py-sDu" secondAttribute="trailing" id="sWZ-S7-SsF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="lps-Ab-2ql"/>
                     </view>
@@ -76,6 +83,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="listView" destination="N0u-1c-2VZ" id="AAN-5K-e6r"/>
+                        <outlet property="mapView" destination="VSQ-py-sDu" id="pp0-7K-HUB"/>
                         <outlet property="viewControl" destination="LoL-Al-SZv" id="7j6-OY-Jaq"/>
                     </connections>
                 </viewController>

@@ -7,12 +7,15 @@
 //
 
 import UIKit
+import MapKit
 
-class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate {
+class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate,CLLocationManagerDelegate {
     
+    @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var listView: UITableView!
     @IBOutlet weak var viewControl: UISegmentedControl!
     var restaurants:[Restaurant]!
+    var locationManager:CLLocationManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,13 +24,24 @@ class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate {
         
         if viewControl.selectedSegmentIndex == 0 {
             listView.isHidden = true
+            mapView.isHidden = false
         }
         else {
             listView.isHidden = false
+            mapView.isHidden = true
         }
         
-        restaurants = getRestaurant()
-        // Do any additional setup after loading the view.
+        //setting up map view
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        let currCoordinate = self.locationManager.location?.coordinate
+        let currLocation = CLLocation(latitude: currCoordinate!.latitude, longitude: currCoordinate!.longitude)
+        centerMapOnLocation(location: currLocation)
+        
+        //collecting nearby restaurants
+        restaurants = getRestaurant(loc: currLocation)
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,9 +55,11 @@ class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate {
     @IBAction func viewControlChanged(_ sender: Any) {
         if viewControl.selectedSegmentIndex == 0 {
             listView.isHidden = true
+            mapView.isHidden = false
         }
         else {
             listView.isHidden = false
+            mapView.isHidden = true
         }
     }
     
@@ -62,7 +78,7 @@ class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath)
         cell.textLabel!.text = restaurants[indexPath.row].name
-        cell.detailTextLabel!.text = restaurants[indexPath.row].address + "--" + String(format:"%f",restaurants[indexPath.row].loc.latitude) + String(format:"%f",restaurants[indexPath.row].loc.longitude)
+        cell.detailTextLabel!.text = restaurants[indexPath.row].address
         
         return cell
     }
@@ -70,12 +86,19 @@ class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate {
     /*
      * Helper Functions
      */
-    func getRestaurant() -> [Restaurant] {
+    func getRestaurant(loc: CLLocation) -> [Restaurant] {
         var data = [Restaurant]()
         
         //temp
-        data.append(Restaurant(long: 0.5, lat: 0.5, name: "Temporary", addr: "Temp Addr"))
+        let tempCoor = CLLocationCoordinate2D(latitude: loc.coordinate.latitude + 0.1, longitude: loc.coordinate.longitude + 0.1)
+        let temp = Restaurant(coor: tempCoor, name: "Temporary", addr: "temporary restaurant")
+        data.append(temp)
         
         return data
+    }
+    
+    func centerMapOnLocation(location: CLLocation) {
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, 200, 200)
+        mapView.setRegion(coordinateRegion, animated: true)
     }
 }

@@ -7,25 +7,20 @@
 //
 
 import Foundation
+import MapKit
 
-class Restaurant {
-    var loc:Location
+class Restaurant: NSObject, MKAnnotation {
     var name:String
     var address:String
+    let coordinate: CLLocationCoordinate2D
     
-    init(long: Double, lat: Double,name: String,addr: String) {
-        self.loc = Location(long: long,lat: lat)
+    init(coor: CLLocationCoordinate2D,name: String,addr: String) {
+        self.coordinate = coor
         self.name = name
         self.address = addr
     }
-}
-
-class Location {
-    var longitude:Double
-    var latitude:Double
     
-    init(long: Double, lat: Double) {
-        self.longitude = long
-        self.latitude = lat
+    var subtitle: String? {
+        return name
     }
 }
