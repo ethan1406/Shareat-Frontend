@@ -42,6 +42,10 @@ class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate,CLLoc
         
         //collecting nearby restaurants
         restaurants = getRestaurant(loc: currLocation)
+        
+        for i in restaurants {
+            mapView.addAnnotation(i)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -90,7 +94,7 @@ class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate,CLLoc
         var data = [Restaurant]()
         
         //temp
-        let tempCoor = CLLocationCoordinate2D(latitude: loc.coordinate.latitude + 0.1, longitude: loc.coordinate.longitude + 0.1)
+        let tempCoor = CLLocationCoordinate2D(latitude: loc.coordinate.latitude + 0.002, longitude: loc.coordinate.longitude + 0.002)
         let temp = Restaurant(coor: tempCoor, name: "Temporary", addr: "temporary restaurant")
         data.append(temp)
         
