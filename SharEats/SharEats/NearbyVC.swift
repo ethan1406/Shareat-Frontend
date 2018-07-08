@@ -8,19 +8,23 @@
 
 import UIKit
 import MapKit
+import SwiftyJSON
 
-class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate,CLLocationManagerDelegate {
+class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate,CLLocationManagerDelegate, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var listView: UITableView!
     @IBOutlet weak var viewControl: UISegmentedControl!
     var restaurants:[Restaurant]!
     var locationManager:CLLocationManager!
+    var currIndex:Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         listView.delegate = self
         listView.dataSource = self
+        mapView.delegate = self
+        currIndex = -1
         
         if viewControl.selectedSegmentIndex == 0 {
             listView.isHidden = true
@@ -44,6 +48,7 @@ class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate,CLLoc
         restaurants = getRestaurant(loc: currLocation)
         
         for i in restaurants {
+            print(i.name)
             mapView.addAnnotation(i)
         }
     }
@@ -87,16 +92,27 @@ class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate,CLLoc
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        currIndex = indexPath.row
+        performSegue(withIdentifier: "showMenu", sender: view)
+    }
+    
     /*
      * Helper Functions
      */
     func getRestaurant(loc: CLLocation) -> [Restaurant] {
         var data = [Restaurant]()
+        let url = "https://www.shareatpay.com/map/findclosest?latitude=" + String(loc.coordinate.latitude) + "&longitude=" + String(loc.coordinate.latitude)
         
-        //temp
-        let tempCoor = CLLocationCoordinate2D(latitude: loc.coordinate.latitude + 0.002, longitude: loc.coordinate.longitude + 0.002)
-        let temp = Restaurant(coor: tempCoor, name: "Temporary", addr: "temporary restaurant")
-        data.append(temp)
+        let json:JSON = HelperFunctions.requestJson(url: url, method: "GET")
+        
+        for i in json.arrayValue {
+            let lat = HelperFunctions.radiansToDegress(radians: i["location"]["latitude"].double!)
+            let long = HelperFunctions.radiansToDegress(radians: i["location"]["longitude"].double!)
+            let coor:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: lat, longitude: long)
+            let temp = Restaurant(coor: coor, name: i["name"].stringValue,id: i["_id"].stringValue)
+            data.append(temp)
+        }
         
         return data
     }
@@ -104,5 +120,23 @@ class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate,CLLoc
     func centerMapOnLocation(location: CLLocation) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, 200, 200)
         mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        performSegue(withIdentifier: "showMenu", sender: view)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let check = (sender is MKAnnotation ? true : false)
+        if (segue.identifier == "showMenu" && check)
+        {
+            let avc:MenuVC = segue.destination as! MenuVC
+            let view = sender as! MKAnnotationView
+            avc.restaurant = view.annotation as! Restaurant
+        }
+        else {
+            let avc:MenuVC = segue.destination as! MenuVC
+            avc.restaurant = restaurants[currIndex]
+        }
     }
 }

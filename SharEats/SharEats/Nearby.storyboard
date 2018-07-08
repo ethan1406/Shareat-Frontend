@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="aH5-7A-Xm8">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="aH5-7A-Xm8">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -85,11 +85,20 @@
                         <outlet property="listView" destination="N0u-1c-2VZ" id="AAN-5K-e6r"/>
                         <outlet property="mapView" destination="VSQ-py-sDu" id="pp0-7K-HUB"/>
                         <outlet property="viewControl" destination="LoL-Al-SZv" id="7j6-OY-Jaq"/>
+                        <segue destination="9Ic-Oq-y32" kind="show" identifier="showMenu" id="V11-bH-Ne9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5G1-Bn-zEP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-50.399999999999999" y="-49.025487256371818"/>
+        </scene>
+        <!--Menu-->
+        <scene sceneID="Xqt-Ka-pmh">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Menu" id="9Ic-Oq-y32" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lSq-H3-9DS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="776" y="-97"/>
         </scene>
     </scenes>
 </document>

@@ -1,0 +1,6 @@
+framework module Pods_SharEats {
+  umbrella header "Pods-SharEats-umbrella.h"
+
+  export *
+  module * { export * }
+}
