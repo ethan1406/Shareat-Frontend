@@ -48,7 +48,6 @@ class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate,CLLoc
         restaurants = getRestaurant(loc: currLocation)
         
         for i in restaurants {
-            print(i.name)
             mapView.addAnnotation(i)
         }
     }

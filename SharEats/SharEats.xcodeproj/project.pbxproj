@@ -14,6 +14,9 @@
 		024C9A152077FA8300227D13 /* SharEatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024C9A142077FA8300227D13 /* SharEatsTests.swift */; };
 		024C9A202077FA8400227D13 /* SharEatsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024C9A1F2077FA8400227D13 /* SharEatsUITests.swift */; };
 		02AD0E2D20D5CA3700FC80F1 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AD0E2C20D5CA3700FC80F1 /* MenuVC.swift */; };
+		02BA1C5E20F1A79400B8115E /* MenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BA1C5D20F1A79400B8115E /* MenuItemCell.swift */; };
+		02BA1C6020F1ACCA00B8115E /* MenuItemPage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02BA1C5F20F1ACCA00B8115E /* MenuItemPage.storyboard */; };
+		02BA1C6220F1AD7300B8115E /* MenuItemPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BA1C6120F1AD7300B8115E /* MenuItemPageVC.swift */; };
 		02BAFECC20F0265B00E991FF /* SignUp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02BAFECB20F0265B00E991FF /* SignUp.storyboard */; };
 		02BAFECE20F026E400E991FF /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BAFECD20F026E400E991FF /* SignUpVC.swift */; };
 		02BAFED020F02E0200E991FF /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BAFECF20F02E0200E991FF /* Menu.swift */; };
@@ -63,6 +66,9 @@
 		024C9A1F2077FA8400227D13 /* SharEatsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharEatsUITests.swift; sourceTree = "<group>"; };
 		024C9A212077FA8400227D13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		02AD0E2C20D5CA3700FC80F1 /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
+		02BA1C5D20F1A79400B8115E /* MenuItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemCell.swift; sourceTree = "<group>"; };
+		02BA1C5F20F1ACCA00B8115E /* MenuItemPage.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MenuItemPage.storyboard; sourceTree = "<group>"; };
+		02BA1C6120F1AD7300B8115E /* MenuItemPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemPageVC.swift; sourceTree = "<group>"; };
 		02BAFECB20F0265B00E991FF /* SignUp.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignUp.storyboard; sourceTree = "<group>"; };
 		02BAFECD20F026E400E991FF /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		02BAFECF20F02E0200E991FF /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
@@ -179,6 +185,7 @@
 				02F2413A2089203700743FFD /* Profile.storyboard */,
 				02F241382089202800743FFD /* Payment.storyboard */,
 				02BAFECB20F0265B00E991FF /* SignUp.storyboard */,
+				02BA1C5F20F1ACCA00B8115E /* MenuItemPage.storyboard */,
 			);
 			name = Storyboard;
 			sourceTree = "<group>";
@@ -199,6 +206,7 @@
 				02BD829D20AAE11C00B504D0 /* NearbyVC.swift */,
 				02AD0E2C20D5CA3700FC80F1 /* MenuVC.swift */,
 				02BAFECD20F026E400E991FF /* SignUpVC.swift */,
+				02BA1C6120F1AD7300B8115E /* MenuItemPageVC.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -209,6 +217,7 @@
 				02BD82A020AAE50B00B504D0 /* Restaurant.swift */,
 				02F0C05420E05A740021922D /* HelperFunctions.swift */,
 				02BAFECF20F02E0200E991FF /* Menu.swift */,
+				02BA1C5D20F1A79400B8115E /* MenuItemCell.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -351,6 +360,7 @@
 				024C9A0A2077FA8300227D13 /* LaunchScreen.storyboard in Resources */,
 				024C9A072077FA8300227D13 /* Assets.xcassets in Resources */,
 				02F241352089200800743FFD /* Menu.storyboard in Resources */,
+				02BA1C6020F1ACCA00B8115E /* MenuItemPage.storyboard in Resources */,
 				02BAFECC20F0265B00E991FF /* SignUp.storyboard in Resources */,
 				02F2413320891FDE00743FFD /* Nearby.storyboard in Resources */,
 				024C9A052077FA8300227D13 /* Main.storyboard in Resources */,
@@ -438,10 +448,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-SharEats/Pods-SharEats-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -461,7 +473,9 @@
 				02BAFED020F02E0200E991FF /* Menu.swift in Sources */,
 				024C9A002077FA8300227D13 /* AppDelegate.swift in Sources */,
 				02F2413D2089226F00743FFD /* MainVC.swift in Sources */,
+				02BA1C6220F1AD7300B8115E /* MenuItemPageVC.swift in Sources */,
 				02F0C05520E05A740021922D /* HelperFunctions.swift in Sources */,
+				02BA1C5E20F1A79400B8115E /* MenuItemCell.swift in Sources */,
 				02BD829E20AAE11C00B504D0 /* NearbyVC.swift in Sources */,
 				02AD0E2D20D5CA3700FC80F1 /* MenuVC.swift in Sources */,
 			);
