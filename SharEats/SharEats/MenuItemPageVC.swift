@@ -14,15 +14,19 @@ class MenuItemPageVC: UIViewController {
     @IBOutlet var menuItemName: UILabel!
     @IBOutlet var menuItemDesc: UILabel!
     @IBOutlet var menuPrice: UILabel!
+    @IBOutlet var orderButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         menuItemName.text = item.title
         menuItemDesc.text = item.description
         menuPrice.text = "$" + String(item.price)
-        // Do any additional setup after loading the view.
+
+        let partyId:String? = UserDefaults.standard.object(forKey: "partyId") as? String ?? nil
+        if partyId == nil {
+            orderButton.isHidden = true
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,7 +35,23 @@ class MenuItemPageVC: UIViewController {
     }
     
     @IBAction func orderPressed(_ sender: Any) {
-        //API call to send order
+        let partyId:String? = UserDefaults.standard.object(forKey: "partyId") as? String ?? nil
+        let url = "https://www.shareatpay.com/order/" + partyId! + "/" + item.id
+        print(url)
+        _ = HelperFunctions.requestJson(url: url, method: "POST")
+        
+        let alert = UIAlertController(title: "Success", message: "You have ordered 1 " + item.title + " successfully", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            switch action.style{
+            case .default:
+                return
+            case .cancel:
+                return
+            case .destructive:
+                return
+            }
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func backPressed(_ sender: Any) {

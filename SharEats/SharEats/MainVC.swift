@@ -22,6 +22,16 @@ class MainVC: UIViewController {
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(MainVC.dismissKeyboard))
         view.addGestureRecognizer(tap)
+        
+        //clearing userdefaults
+        let domain = Bundle.main.bundleIdentifier!
+        UserDefaults.standard.removePersistentDomain(forName: domain)
+        UserDefaults.standard.synchronize()
+        
+        
+        //DELETE LATER
+        userField.text = "shuzawa@usc.edu"
+        passwordField.text = "q1234567"
     }
 
     override func didReceiveMemoryWarning() {

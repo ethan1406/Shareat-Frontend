@@ -29,7 +29,7 @@ class MenuItem {
         
         for i in start {
             let price:String = i["price"].stringValue
-            let temp = MenuItem(title: i["title"].stringValue, price: Double(price)!, desc: i["description"].stringValue, pic: i["picture"].stringValue, id: i["id"].stringValue)
+            let temp = MenuItem(title: i["title"].stringValue, price: Double(price)!, desc: i["description"].stringValue, pic: i["picture"].stringValue, id: i["foodId"].stringValue)
             
             print("title:" + i["title"].stringValue)
             ret.append(temp)

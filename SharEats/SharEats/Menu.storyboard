@@ -170,11 +170,20 @@
                         <outlet property="ratingLabel" destination="eXi-35-S9Z" id="udz-rJ-3cG"/>
                         <outlet property="reserveButton" destination="lHa-gY-Bw0" id="NIw-59-WrI"/>
                         <segue destination="wO8-jo-aWW" kind="presentation" identifier="showItem" id="bJc-wU-qV6"/>
+                        <segue destination="Fc6-a2-9bs" kind="presentation" identifier="checkout" id="cWo-DQ-Evd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PQW-pq-0b8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="44" y="139.880059970015"/>
+        </scene>
+        <!--Payment-->
+        <scene sceneID="OjR-uu-NYf">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Payment" id="Fc6-a2-9bs" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gqE-TL-3w2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="855" y="64"/>
         </scene>
         <!--MenuItemPage-->
         <scene sceneID="2AN-wP-swb">

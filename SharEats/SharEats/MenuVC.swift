@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import Stripe
 
-class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, STPPaymentMethodsViewControllerDelegate{
     @IBOutlet weak var reserveButton: UIButton!
     @IBOutlet weak var menuTable: UITableView!
     @IBOutlet weak var image: UIImageView!
@@ -40,6 +41,11 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource{
         
         menuTable.delegate = self
         menuTable.dataSource = self
+        
+        let partyId:String? = UserDefaults.standard.object(forKey: "partyId") as? String ?? nil
+        if partyId != nil {
+            reserveButton.setTitle("Pay Bill", for: UIControlState.normal)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,28 +54,49 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource{
     }
     
     @IBAction func reservePressed(_ sender: Any) {
-        let alert = UIAlertController(title: "Table Number", message: "Please enter your table number", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addTextField { (textField) in
-            textField.text = ""
-            textField.keyboardType = .numberPad
-        }
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-            let textField = alert.textFields![0]
-            switch action.style{
-            case .default:
-                let url = "https://www.shareatpay.com/party/"+self.restaurant!.id+"/"+textField.text!
-                print(url)
-                let json = HelperFunctions.requestJson(url: url, method:"POST")
-                print(json)
-                UserDefaults.standard.set(json["partyId"].stringValue,forKey: "partyId")
-            case .cancel:
-                return
-                
-            case .destructive:
-                print("destructive")
+        if reserveButton.titleLabel?.text == "Reserve a Seat" {
+            let alert = UIAlertController(title: "Table Number", message: "Please enter your table number", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addTextField { (textField) in
+                textField.text = ""
+                textField.keyboardType = .numberPad
             }
-        }))
-        self.present(alert, animated: true, completion: nil)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                let textField = alert.textFields![0]
+                switch action.style{
+                case .default:
+                    let url = "https://www.shareatpay.com/party/"+self.restaurant!.id+"/"+textField.text!
+                    print(url)
+                    let json = HelperFunctions.requestJson(url: url, method:"POST")
+                    print(json)
+                    UserDefaults.standard.set(json["partyId"].stringValue,forKey: "partyId")
+                case .cancel:
+                    return
+                    
+                case .destructive:
+                    print("destructive")
+                }
+            }))
+            self.present(alert, animated: true, completion: nil)
+            reserveButton.setTitle("Pay Bill", for: UIControlState.normal)
+        }
+        else {
+            reserveButton.setTitle("Reserve a Seat", for: UIControlState.normal)
+            let customerContext = MockCustomerContext()
+            let theme = STPTheme.default()
+            let config = STPPaymentConfiguration()
+            config.additionalPaymentMethods = .all
+            config.requiredBillingAddressFields = .none
+            config.appleMerchantIdentifier = "dummy-merchant-id"
+            let viewController = STPPaymentMethodsViewController(configuration: config,
+                                                                 theme: theme,
+                                                                 customerContext: customerContext,
+                                                                 delegate: self)
+            let navigationController = UINavigationController(rootViewController: viewController)
+            navigationController.navigationBar.stp_theme = theme
+            present(navigationController, animated: true, completion: nil)
+        }
+        
+        
     }
     
     @IBAction func backPressed(_ sender: Any) {
@@ -113,5 +140,19 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource{
             let avc:MenuItemPageVC = segue.destination as! MenuItemPageVC
             avc.item = selectedItem
         }
+    }
+    
+    // MARK: STPPaymentMethodsViewControllerDelegate
+    
+    func paymentMethodsViewControllerDidCancel(_ paymentMethodsViewController: STPPaymentMethodsViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func paymentMethodsViewControllerDidFinish(_ paymentMethodsViewController: STPPaymentMethodsViewController) {
+        paymentMethodsViewController.navigationController?.popViewController(animated: true)
+    }
+    
+    func paymentMethodsViewController(_ paymentMethodsViewController: STPPaymentMethodsViewController, didFailToLoadWithError error: Error) {
+        dismiss(animated: true, completion: nil)
     }
 }

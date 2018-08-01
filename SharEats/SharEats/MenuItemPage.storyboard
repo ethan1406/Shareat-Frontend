@@ -89,6 +89,7 @@
                         <outlet property="menuItemDesc" destination="OMa-ZS-wds" id="NEG-44-4QA"/>
                         <outlet property="menuItemName" destination="ChZ-6F-qNu" id="npB-dI-1pg"/>
                         <outlet property="menuPrice" destination="oEm-nI-pAN" id="aDA-dj-bUK"/>
+                        <outlet property="orderButton" destination="rPg-sB-Rbi" id="Q6A-lc-ha9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rpX-RN-fwr" userLabel="First Responder" sceneMemberID="firstResponder"/>
