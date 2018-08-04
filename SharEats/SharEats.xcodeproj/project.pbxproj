@@ -20,6 +20,7 @@
 		02BAFECC20F0265B00E991FF /* SignUp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02BAFECB20F0265B00E991FF /* SignUp.storyboard */; };
 		02BAFECE20F026E400E991FF /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BAFECD20F026E400E991FF /* SignUpVC.swift */; };
 		02BAFED020F02E0200E991FF /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BAFECF20F02E0200E991FF /* Menu.swift */; };
+		02BCF991211169B80031ACC1 /* StripeAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BCF990211169B80031ACC1 /* StripeAPIClient.swift */; };
 		02BD829E20AAE11C00B504D0 /* NearbyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BD829D20AAE11C00B504D0 /* NearbyVC.swift */; };
 		02BD82A120AAE50B00B504D0 /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BD82A020AAE50B00B504D0 /* Restaurant.swift */; };
 		02F0C05520E05A740021922D /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F0C05420E05A740021922D /* HelperFunctions.swift */; };
@@ -74,6 +75,7 @@
 		02BAFECB20F0265B00E991FF /* SignUp.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignUp.storyboard; sourceTree = "<group>"; };
 		02BAFECD20F026E400E991FF /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		02BAFECF20F02E0200E991FF /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		02BCF990211169B80031ACC1 /* StripeAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeAPIClient.swift; sourceTree = "<group>"; };
 		02BD829D20AAE11C00B504D0 /* NearbyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyVC.swift; sourceTree = "<group>"; };
 		02BD82A020AAE50B00B504D0 /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		02F0C05420E05A740021922D /* HelperFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				02BAFECF20F02E0200E991FF /* Menu.swift */,
 				02BA1C5D20F1A79400B8115E /* MenuItemCell.swift */,
 				02FD64C621101A31003A0C2A /* MockCustomerContext.swift */,
+				02BCF990211169B80031ACC1 /* StripeAPIClient.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -454,11 +457,13 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-SharEats/Pods-SharEats-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
@@ -481,6 +486,7 @@
 				02F2413D2089226F00743FFD /* MainVC.swift in Sources */,
 				02BA1C6220F1AD7300B8115E /* MenuItemPageVC.swift in Sources */,
 				02FD64C521101247003A0C2A /* PaymentVC.swift in Sources */,
+				02BCF991211169B80031ACC1 /* StripeAPIClient.swift in Sources */,
 				02F0C05520E05A740021922D /* HelperFunctions.swift in Sources */,
 				02BA1C5E20F1A79400B8115E /* MenuItemCell.swift in Sources */,
 				02FD64C721101A31003A0C2A /* MockCustomerContext.swift in Sources */,

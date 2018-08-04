@@ -8,6 +8,7 @@ target 'SharEats' do
   # Pods for SharEats
   pod 'SwiftyJSON', '~> 4.0'
   pod 'Stripe'
+  pod 'Alamofire'
 
   target 'SharEatsTests' do
     inherit! :search_paths

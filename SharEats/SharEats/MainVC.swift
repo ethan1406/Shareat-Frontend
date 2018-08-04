@@ -31,7 +31,7 @@ class MainVC: UIViewController {
         
         //DELETE LATER
         userField.text = "shuzawa@usc.edu"
-        passwordField.text = "q1234567"
+        passwordField.text = "a12345678"
     }
 
     override func didReceiveMemoryWarning() {

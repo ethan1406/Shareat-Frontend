@@ -9,6 +9,8 @@
 import Foundation
 import Stripe
 
+/* TEMP CUSTOMER CONTEXT FOR TESTING PURPOSES */
+
 class MockCustomer: STPCustomer {
     var mockSources: [STPSourceProtocol] = []
     var mockDefaultSource: STPSourceProtocol? = nil

@@ -81,19 +81,7 @@ class MenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, STPP
         }
         else {
             reserveButton.setTitle("Reserve a Seat", for: UIControlState.normal)
-            let customerContext = MockCustomerContext()
-            let theme = STPTheme.default()
-            let config = STPPaymentConfiguration()
-            config.additionalPaymentMethods = .all
-            config.requiredBillingAddressFields = .none
-            config.appleMerchantIdentifier = "dummy-merchant-id"
-            let viewController = STPPaymentMethodsViewController(configuration: config,
-                                                                 theme: theme,
-                                                                 customerContext: customerContext,
-                                                                 delegate: self)
-            let navigationController = UINavigationController(rootViewController: viewController)
-            navigationController.navigationBar.stp_theme = theme
-            present(navigationController, animated: true, completion: nil)
+            performSegue(withIdentifier: "checkout", sender: self)
         }
         
         
