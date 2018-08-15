@@ -13,7 +13,8 @@ import Alamofire
 class StripeAPIClient: NSObject, STPEphemeralKeyProvider {
     
     static let sharedClient = StripeAPIClient()
-    var baseURLString: String? = "https://www.shareatpay.com/customer/me/ephemeral_keys?"
+    var baseURLString: String? = "https://www.shareatpay.com/party/charge"
+    //"https://www.shareatpay.com/customer/me/ephemeral_keys?"
     var baseURL: URL {
         if let urlString = self.baseURLString, let url = URL(string: urlString) {
             return url

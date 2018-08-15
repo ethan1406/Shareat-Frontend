@@ -9,35 +9,33 @@
 import UIKit
 import Stripe
 
-class PaymentVC: UIViewController, STPPaymentMethodsViewControllerDelegate {
+class PaymentVC: UIViewController, STPPaymentContextDelegate {
 
+    private let customerContext: STPCustomerContext
+    private let paymentContext: STPPaymentContext
+    @IBOutlet var priceButton: UIButton!
+    
+    required init?(coder aDecoder: NSCoder) {
+        customerContext = STPCustomerContext(keyProvider: StripeAPIClient.sharedClient)
+        paymentContext = STPPaymentContext(customerContext: customerContext)
+        paymentContext.paymentCurrency = "usd"
+
+        super.init(coder: aDecoder)
+        
+        paymentContext.delegate = self
+        paymentContext.hostViewController = self
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        //            let customerContext = MockCustomerContext() //need to create own customer context
-        let customerContext = STPCustomerContext(keyProvider: StripeAPIClient.sharedClient)
         
-        let paymentContext: STPPaymentContext = STPPaymentContext(customerContext: customerContext)
-        paymentContext.paymentAmount = 10
-        paymentContext.paymentCurrency = "usd"
-//        let theme = STPTheme.default()
-//        let config = STPPaymentConfiguration.shared()
-//        config.additionalPaymentMethods = .all
-//        config.requiredBillingAddressFields = .none
-        paymentContext.hostViewController = self
-        paymentContext.presentPaymentMethodsViewController()
-        
-        //            let theme = STPTheme.default()
-        //            let config = STPPaymentConfiguration.shared()
-        //            config.additionalPaymentMethods = .all
-        //            config.requiredBillingAddressFields = .none
-        //            let viewController = STPPaymentMethodsViewController(configuration: config,
-        //                                                                 theme: theme,
-        //                                                                 customerContext: customerContext,
-        //                                                                 delegate: self)
-        //            let navigationController = UINavigationController(rootViewController: viewController)
-        //            navigationController.navigationBar.stp_theme = theme
-        //            present(navigationController, animated: true, completion: nil)
-        // Do any additional setup after loading the view.
+        //let url = ""
+        //let json = HelperFunctions.requestJson(url: url, method: "POST")
+        let price = 10
+
+        paymentContext.paymentAmount = price
+        priceButton.isEnabled = false
+        priceButton.setTitle("$" + String(price), for: UIControlState.normal)
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,31 +43,43 @@ class PaymentVC: UIViewController, STPPaymentMethodsViewControllerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func paymentMethodsViewControllerDidCancel(_ paymentMethodsViewController: STPPaymentMethodsViewController) {
+    // UI event functions
+    @IBAction func paymentPressed(_ sender: Any) {
+        paymentContext.presentPaymentMethodsViewController()
+    }
+    
+    @IBAction func confirmPressed(_ sender: Any) {
+        //if paymentContext is set up correctly, confirm payment
+        paymentContext.requestPayment()
         dismiss(animated: true, completion: nil)
     }
     
-    func paymentMethodsViewControllerDidFinish(_ paymentMethodsViewController: STPPaymentMethodsViewController) {
-        paymentMethodsViewController.navigationController?.popViewController(animated: true)
+    
+    
+    // STPPaymentContext Delegate Functions
+    
+    func paymentContext(_ paymentContext: STPPaymentContext, didFailToLoadWithError error: Error) {
+        print("[ERROR]: Unrecognized error while loading payment context: \(error)");
     }
     
-    func paymentMethodsViewController(_ paymentMethodsViewController: STPPaymentMethodsViewController, didFailToLoadWithError error: Error) {
-        dismiss(animated: true, completion: nil)
+    func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
+        // update ui after payment context changed
     }
     
-    func paymentContext(_ paymentContext: STPPaymentContext,
-                        didFinishWithStatus status: STPPaymentStatus,
-                        error: Error?) {
+    func paymentContext(_ paymentContext: STPPaymentContext, didCreatePaymentResult paymentResult: STPPaymentResult, completion: @escaping STPErrorBlock) {
+        // Create charge using payment result
         
+        //StripeAPIClient.completeCharge()...
+    }
+    
+    func paymentContext(_ paymentContext: STPPaymentContext, didFinishWith status: STPPaymentStatus, error: Error?) {
         switch status {
-        case .error:
-//            self.showError(error)
-            return
         case .success:
-//            self.showReceipt()
-            return
+            print("success")
+        case .error:
+            print("error")
         case .userCancellation:
-            return // Do nothing
+            print("userCancelled")
         }
     }
 }
