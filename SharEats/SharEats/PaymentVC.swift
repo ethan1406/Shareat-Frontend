@@ -59,7 +59,7 @@ class PaymentVC: UIViewController, STPPaymentContextDelegate {
     // STPPaymentContext Delegate Functions
     
     func paymentContext(_ paymentContext: STPPaymentContext, didFailToLoadWithError error: Error) {
-        print("[ERROR]: Unrecognized error while loading payment context: \(error)");
+        print("[ERROR]: Unrecognized error while loading payment context (testing): \(error)");
     }
     
     func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
