@@ -14,8 +14,17 @@ class StripeAPIClient: NSObject, STPEphemeralKeyProvider {
     
     static let sharedClient = StripeAPIClient()
     var baseURLString: String? = "https://www.shareatpay.com/customer/me/ephemeral_keys?api_version=2018-07-27"
-    var baseURL: URL {
+    var keyURL: URL {
         if let urlString = self.baseURLString, let url = URL(string: urlString) {
+            return url
+        } else {
+            fatalError()
+        }
+    }
+    
+    var baseURLString2: String? = "https://www.shareatpay.com/party/charge"
+    var chargeURL: URL {
+        if let urlString = self.baseURLString2, let url = URL(string: urlString) {
             return url
         } else {
             fatalError()
@@ -27,7 +36,7 @@ class StripeAPIClient: NSObject, STPEphemeralKeyProvider {
                         shippingAddress: STPAddress?,
                         shippingMethod: PKShippingMethod?,
                         completion: @escaping STPErrorBlock) {
-        let url = self.baseURL.appendingPathComponent("charge")
+        let url = self.chargeURL
         var params: [String: Any] = [
             "source": result.source.stripeID,
             "amount": amount
@@ -47,7 +56,7 @@ class StripeAPIClient: NSObject, STPEphemeralKeyProvider {
     
     func createCustomerKey(withAPIVersion apiVersion: String, completion: @escaping STPJSONResponseCompletionBlock) {
         //let url = self.baseURL.appendingPathComponent("ephemeral_keys")
-        let url = self.baseURL
+        let url = self.keyURL
         Alamofire.request(url, method: .post, parameters: [
             "api_version": apiVersion,
             ])
