@@ -10,16 +10,18 @@ import Foundation
 import MapKit
 
 class Restaurant: NSObject, MKAnnotation {
-    var name:String
-    var address:String
+    var name: String
+    var address: String
     let coordinate: CLLocationCoordinate2D
-    var menu:[String:[String]]
-    var id:String
+    var menu: [String:[String]]
+    let profilePicURL: String?
+    var id: String
     var identifier = "restaurant"
     
-    init(coor: CLLocationCoordinate2D,name: String,id: String,addr: String = "None provided",menu: [String:[String]] = ["error":["No menu provided"]]) {
+    init(coor: CLLocationCoordinate2D,name: String, id: String, profilePicURL: String? = nil, addr: String = "None provided", menu: [String:[String]] = ["error":["No menu provided"]]) {
         self.coordinate = coor
         self.name = name
+        self.profilePicURL = profilePicURL
         self.address = addr
         self.menu = menu
         self.id = id

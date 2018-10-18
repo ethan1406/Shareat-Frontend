@@ -1,24 +1,33 @@
 PODS:
   - Alamofire (4.7.2)
+  - AlamofireImage (3.3.1):
+    - Alamofire (~> 4.5)
+  - SideMenu (4.0.0)
   - Stripe (13.0.3)
   - SwiftyJSON (4.1.0)
 
 DEPENDENCIES:
   - Alamofire
+  - AlamofireImage (~> 3.3)
+  - SideMenu
   - Stripe
   - SwiftyJSON (~> 4.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - AlamofireImage
+    - SideMenu
     - Stripe
     - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
+  AlamofireImage: 3b35b586853abaf94ca1250f4e94cff3c21a4c0d
+  SideMenu: 70ee5657df63ec3382660ec4ef470bf1cf5db07d
   Stripe: 76c203e21555089b708e6cbe972a3e3baf1ab4d8
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
 
-PODFILE CHECKSUM: 233a7c3848047a7f9f6fe770f146a1a4f6ccfc0f
+PODFILE CHECKSUM: 586331237d26816afd75daf956ed862f7d46a015
 
 COCOAPODS: 1.5.3

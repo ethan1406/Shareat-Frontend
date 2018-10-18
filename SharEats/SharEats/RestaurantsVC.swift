@@ -1,20 +1,21 @@
 //
-//  NearbyVC.swift
+//  Restaurants.swift
 //  SharEats
 //
-//  Created by Toshitaka on 5/15/18.
+//  Created by Ethan's Badass Penguin on 9/3/18.
 //  Copyright © 2018 SharEats. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import MapKit
 import SwiftyJSON
+import Alamofire
+import AlamofireImage
 
-class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate,CLLocationManagerDelegate, MKMapViewDelegate {
-    
-    @IBOutlet weak var mapView: MKMapView!
+class RestaurantsVC: UIViewController,UITableViewDataSource,CLLocationManagerDelegate,UITableViewDelegate {
+     
     @IBOutlet weak var listView: UITableView!
-    @IBOutlet weak var viewControl: UISegmentedControl!
     var restaurants:[Restaurant]!
     var locationManager:CLLocationManager!
     var currIndex:Int!
@@ -23,52 +24,22 @@ class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate,CLLoc
         super.viewDidLoad()
         listView.delegate = self
         listView.dataSource = self
-        mapView.delegate = self
-        currIndex = -1
-        
-        if viewControl.selectedSegmentIndex == 0 {
-            listView.isHidden = true
-            mapView.isHidden = false
-        }
-        else {
-            listView.isHidden = false
-            mapView.isHidden = true
-        }
-        
-        //setting up map view
+        listView.rowHeight = 230
+
+        //collecting nearby restaurants
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
         let currCoordinate = self.locationManager.location?.coordinate
         let currLocation = CLLocation(latitude: currCoordinate!.latitude, longitude: currCoordinate!.longitude)
-        centerMapOnLocation(location: currLocation)
-        
-        //collecting nearby restaurants
         restaurants = getRestaurant(loc: currLocation)
         
-        for i in restaurants {
-            mapView.addAnnotation(i)
-        }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    /*
-     * Event function
-     */
-    @IBAction func viewControlChanged(_ sender: Any) {
-        if viewControl.selectedSegmentIndex == 0 {
-            listView.isHidden = true
-            mapView.isHidden = false
-        }
-        else {
-            listView.isHidden = false
-            mapView.isHidden = true
-        }
     }
     
     
@@ -78,24 +49,38 @@ class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate,CLLoc
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return restaurants.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath)
-        cell.textLabel!.text = restaurants[indexPath.row].name
-        cell.detailTextLabel!.text = restaurants[indexPath.row].address
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RestaurantTableViewCell", for: indexPath) as! RestaurantTableViewCell
+        cell.title.text = restaurants[indexPath.row].name
+        cell.address.text = restaurants[indexPath.row].address
+        if let urlString = restaurants[indexPath.row].profilePicURL {
+            Alamofire.request(urlString).responseImage { response in
+                if let image = response.result.value {
+                    print("image downloaded: \(image)")
+                    DispatchQueue.main.async {
+                        if let currentIndexPath =
+                            tableView.indexPath(for: cell),
+                            currentIndexPath != indexPath {
+                            return
+                        }
+                        cell.profilePic.image = image
+                    }
+                }
+            }
+        }
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         currIndex = indexPath.row
         performSegue(withIdentifier: "showMenu", sender: view)
     }
-    
+
     /*
      * Helper Functions
      */
@@ -109,20 +94,26 @@ class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate,CLLoc
             let lat = HelperFunctions.radiansToDegress(radians: i["location"]["latitude"].double!)
             let long = HelperFunctions.radiansToDegress(radians: i["location"]["longitude"].double!)
             let coor:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: lat, longitude: long)
-            let temp = Restaurant(coor: coor, name: i["name"].stringValue,id: i["_id"].stringValue)
+            //profile pic url
+            var profilePicURL: String? = nil
+            let profilePicJson = i["profilepic"]
+            if(profilePicJson != JSON.null) {
+                profilePicURL = profilePicJson.stringValue
+                if(profilePicURL == "") {
+                    profilePicURL = nil
+                }
+            }
+            //address
+            var address: String = "None Provided"
+            let addressJson = i["address"]
+            if(addressJson != JSON.null) {
+                address = addressJson.stringValue
+            }
+            let temp = Restaurant(coor: coor, name: i["name"].stringValue,id: i["_id"].stringValue, profilePicURL: profilePicURL, addr: address)
             data.append(temp)
         }
         
         return data
-    }
-    
-    func centerMapOnLocation(location: CLLocation) {
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, 200, 200)
-        mapView.setRegion(coordinateRegion, animated: true)
-    }
-    
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        performSegue(withIdentifier: "showMenu", sender: view)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -139,3 +130,4 @@ class NearbyVC: UIViewController,UITableViewDataSource,UITableViewDelegate,CLLoc
         }
     }
 }
+

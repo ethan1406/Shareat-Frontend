@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import Alamofire
 
 class MainVC: UIViewController {
 
     @IBOutlet weak var userField: UITextField!
-    @IBOutlet weak var errorField: UITextField!
+    
+    @IBOutlet weak var errorField: UILabel!
     @IBOutlet weak var passwordField: UITextField!
     
     override func viewDidLoad() {
@@ -23,6 +25,7 @@ class MainVC: UIViewController {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(MainVC.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
+        errorField.isHidden = true
         //clearing userdefaults
         let domain = Bundle.main.bundleIdentifier!
         UserDefaults.standard.removePersistentDomain(forName: domain)
@@ -30,8 +33,8 @@ class MainVC: UIViewController {
         
         
         //DELETE LATER
-        userField.text = "shuzawa@usc.edu"
-        passwordField.text = "a12345678"
+        userField.text = "ethan3@gmail.com"
+        passwordField.text = "haha12345"
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,21 +50,54 @@ class MainVC: UIViewController {
         
         errorField.isHidden = true
 
-        let url = "https://www.shareatpay.com/login?email="+userField.text!+"&password="+passwordField.text!
-        print(url)
-        let json = HelperFunctions.requestJson(url: url, method: "POST")
-        
-        print(json["status"].intValue)
-        if json["status"].intValue == 0 {
-            UserDefaults.standard.set(userField.text,forKey: "username")
+        fetchUser(){(user, error) in
+            guard error == nil else {
+                self.errorField.isHidden = false
+                self.errorField.text = error
+                return
+            }
+            print(user!.email)
+            UserDefaults.standard.set(user!.email,forKey: "email")
             
-            let storyboard = UIStoryboard(name: "TabBar", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "TabBar") as UIViewController
-            present(vc, animated: true, completion: nil)
+            let storyboard = UIStoryboard(name: "Search", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "Search") as UIViewController
+            self.present(vc, animated: true, completion: nil)
         }
-        else {
-            errorField.text = json["message"].stringValue
-            errorField.isHidden = false
+    }
+    
+    func fetchUser(completion: @escaping (User?,String?)->Void) {
+        let baseURLString = "https://www.shareatpay.com/login"
+        guard
+            !baseURLString.isEmpty,
+            let url = URL(string: baseURLString) else {
+                return
+        }
+        
+        let parameters: [String: Any] = [
+            "email": userField.text!,
+            "password": passwordField.text!
+        ]
+        
+        Alamofire.request(url, method: .post, parameters: parameters).responseJSON { (response) in
+            
+            guard let json = response.result.value as? [String: Any] else {
+                completion(nil, nil)
+                return
+            }
+            
+            if(response.response?.statusCode == 200) {
+                guard let email = json["email"] as? String else{
+                    completion(nil, nil)
+                    return
+                }
+                completion(User(email:email), nil)
+            } else {
+                guard let errorMessage = json["error"] as? String else {
+                    completion(nil, nil)
+                    return
+                }
+                completion(nil, errorMessage)
+            }
         }
     }
 
@@ -73,20 +109,20 @@ class MainVC: UIViewController {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }
-    
+
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0{
-                self.view.frame.origin.y -= keyboardSize.height
+                self.view.frame.origin.y -= keyboardSize.height/2
             }
         }
     }
-    
+
     @objc func keyboardWillHide(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y != 0{
-                self.view.frame.origin.y += keyboardSize.height
-            }
+//            if self.view.frame.origin.y != 0{
+                self.view.frame.origin.y = 0
+//            }
         }
     }
     /*
