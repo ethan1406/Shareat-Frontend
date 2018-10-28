@@ -6,12 +6,15 @@
 //  Copyright © 2018 SharEats. All rights reserved.
 //
 
+import AVFoundation
+import QRCodeReader
 import UIKit
 import MapKit
 import SwiftyJSON
 import SideMenu
+import Alamofire
 //UITableViewDataSource,UITableViewDelegate,
-class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, UISearchBarDelegate {
+class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, UISearchBarDelegate, QRCodeReaderViewControllerDelegate {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var mapView: MKMapView!
@@ -66,20 +69,55 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
         mapView.showsCompass = false;
 
         //setting up map view
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
-        let currCoordinate = self.locationManager.location?.coordinate
-        let currLocation = CLLocation(latitude: currCoordinate!.latitude, longitude: currCoordinate!.longitude)
-        centerMapOnLocation(location: currLocation)
+        locationManager = locationManagerSetUp()
         
-        //collecting nearby restaurants
-        restaurants = getRestaurant(loc: currLocation)
-        
-        for i in restaurants {
-            mapView.addAnnotation(i)
+        if locationManager != nil {
+            let currCoordinate = self.locationManager.location?.coordinate
+            let currLocation = CLLocation(latitude: currCoordinate!.latitude, longitude: currCoordinate!.longitude)
+            centerMapOnLocation(location: currLocation)
+            
+            //collecting nearby restaurants
+            restaurants = getRestaurant(loc: currLocation)
+            
+            for i in restaurants {
+                mapView.addAnnotation(i)
+            }
         }
+    }
+    func locationManagerSetUp() -> CLLocationManager?{
+        
+        let locationManager = CLLocationManager()
+        //check if location services are enabled at all
+        if CLLocationManager.locationServicesEnabled() {
+            
+            switch(CLLocationManager.authorizationStatus()) {
+            //check if services disallowed for this app particularly
+            case .restricted, .denied:
+                print("No access")
+                let accessAlert = UIAlertController(title: "Location Services Disabled", message: "You need to enable location services in settings.", preferredStyle: UIAlertControllerStyle.alert)
+                
+                accessAlert.addAction(UIAlertAction(title: "Okay!", style: .default, handler: { (action: UIAlertAction!) in UIApplication.shared.openURL(NSURL(string:UIApplicationOpenSettingsURLString) as! URL)
+                }))
+                
+                present(accessAlert, animated: true, completion: nil)
+                
+            //check if services are allowed for this app
+            case .authorizedAlways, .authorizedWhenInUse:
+                print("Access! We're good to go!")
+                locationManager.delegate = self
+                locationManager.desiredAccuracy = kCLLocationAccuracyBest
+                return locationManager
+            //check if we need to ask for access
+            case .notDetermined:
+                print("asking for access...")
+                locationManager.requestAlwaysAuthorization()
+            }
+            //location services are disabled on the device entirely!
+        } else {
+            print("Location services are not enabled")
+            
+        }
+        return nil
     }
     
     func getImageWithColor(color: UIColor, size: CGSize) -> UIImage {
@@ -191,7 +229,91 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
 //            avc.restaurant = restaurants[currIndex]
 //        }
 //    }
+    
+    // Good practice: create the reader lazily to avoid cpu overload during the
+    // initialization and each time we need to scan a QRCode
+    lazy var readerVC: QRCodeReaderViewController = {
+        let builder = QRCodeReaderViewControllerBuilder {
+            $0.reader = QRCodeReader(metadataObjectTypes: [.qr], captureDevicePosition: .back)
+        }
+        
+        return QRCodeReaderViewController(builder: builder)
+    }()
+    
 
+    @IBAction func scanAction(_ sender: Any) {
+        // Retrieve the QRCode content
+        // By using the delegate pattern
+        readerVC.delegate = self
+
+        // Or by using the closure pattern
+        readerVC.completionBlock = { (result: QRCodeReaderResult?) in
+            Alamofire.request(result!.value, method: .get).responseJSON { (response) in
+                guard let json = response.result.value as? [String: Any] else {
+                    return
+                }
+                
+                if(response.response?.statusCode == 200) {
+                    //                guard let email = json["email"] as? String else{
+                    //                    completion(nil, nil)
+                    //                    return
+                    //                }
+                    
+                    let storyboard = UIStoryboard(name: "Search", bundle: nil)
+                    let vc = storyboard.instantiateViewController(withIdentifier: "Check") as! CheckViewController
+                    var orders = [Order]()
+                    
+                    for order in json["orders"] as! [[String : Any]] {
+                        if order["buyers"] != nil {
+                            orders.append(Order(name: order["name"] as! String, buyers: nil))
+                        } else {
+                            orders.append(Order(name: order["name"] as! String, buyers: order["buyers"] as! [String]))
+                        }
+                    }
+                    
+                    vc.orders = orders
+                    self.present(vc, animated: true, completion: nil)
+                    
+                    
+                } else {
+                    //                guard let errorMessage = json["error"] as? String else {
+                    //                    completion(nil, nil)
+                    //                    return
+                    //                }
+                    //                completion(nil, errorMessage)
+                }
+            }
+        }
+
+        // Presents the readerVC as modal form sheet
+        readerVC.modalPresentationStyle = .formSheet
+        present(readerVC, animated: true, completion: nil)
+       
+    }
+    
+    
+    // MARK: - QRCodeReaderViewController Delegate Methods
+    
+    func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
+        reader.stopScanning()
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    //This is an optional delegate method, that allows you to be notified when the user switches the cameraName
+    //By pressing on the switch camera button
+    func reader(_ reader: QRCodeReaderViewController, didSwitchCamera newCaptureDevice: AVCaptureDeviceInput) {
+        let cameraName = newCaptureDevice.device.localizedName
+        print("Switching capturing to: \(cameraName)")
+        
+    }
+    
+    func readerDidCancel(_ reader: QRCodeReaderViewController) {
+        reader.stopScanning()
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
     @objc func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)

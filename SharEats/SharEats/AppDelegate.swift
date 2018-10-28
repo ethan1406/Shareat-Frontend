@@ -8,6 +8,7 @@
 
 import UIKit
 import Stripe
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let urlCache = URLCache(memoryCapacity: 25000000,
                                 diskCapacity: 50000000, diskPath: temporaryDirectory)
         URLCache.shared = urlCache
+        let locationManager = CLLocationManager()
+        locationManager.requestAlwaysAuthorization()
         return true
     }
 

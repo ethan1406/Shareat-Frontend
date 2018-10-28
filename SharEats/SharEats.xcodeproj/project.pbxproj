@@ -37,6 +37,9 @@
 		9561CA06E58776FC045FA800 /* Pods_SharEats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE21A73B55224535C1C0AAA6 /* Pods_SharEats.framework */; };
 		A21843DE214917540095D317 /* RestaurantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21843DD214917540095D317 /* RestaurantTableViewCell.swift */; };
 		A251A7FF213D1C3700AF1D52 /* RestaurantsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A251A7FE213D1C3700AF1D52 /* RestaurantsVC.swift */; };
+		A25B49402183084800CD3E1A /* SlideTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25B493F2183084800CD3E1A /* SlideTableViewController.swift */; };
+		A2B482DC21854BE50069579A /* CheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B482DB21854BE40069579A /* CheckViewController.swift */; };
+		A2B482DE2185BB7F0069579A /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B482DD2185BB7F0069579A /* Order.swift */; };
 		A2D02C632148CB7E009BEA95 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D02C622148CB7E009BEA95 /* ProfileVC.swift */; };
 		A2D02C652148E112009BEA95 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D02C642148E112009BEA95 /* User.swift */; };
 		A3270CB3AC1B592B6437A08D /* Pods_SharEatsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1DA055B125F7D992F0B7C5B /* Pods_SharEatsUITests.framework */; };
@@ -104,6 +107,9 @@
 		A0587E91592074CF65F7B475 /* Pods-SharEats-SharEatsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharEats-SharEatsUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SharEats-SharEatsUITests/Pods-SharEats-SharEatsUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A21843DD214917540095D317 /* RestaurantTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantTableViewCell.swift; sourceTree = "<group>"; };
 		A251A7FE213D1C3700AF1D52 /* RestaurantsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantsVC.swift; sourceTree = "<group>"; };
+		A25B493F2183084800CD3E1A /* SlideTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideTableViewController.swift; sourceTree = "<group>"; };
+		A2B482DB21854BE40069579A /* CheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckViewController.swift; sourceTree = "<group>"; };
+		A2B482DD2185BB7F0069579A /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		A2D02C622148CB7E009BEA95 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		A2D02C642148E112009BEA95 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C762A5ABDDF6B315B2D48DF2 /* Pods-SharEats-SharEatsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharEats-SharEatsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SharEats-SharEatsTests/Pods-SharEats-SharEatsTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -235,6 +241,8 @@
 				A251A7FE213D1C3700AF1D52 /* RestaurantsVC.swift */,
 				A2D02C622148CB7E009BEA95 /* ProfileVC.swift */,
 				A21843DD214917540095D317 /* RestaurantTableViewCell.swift */,
+				A25B493F2183084800CD3E1A /* SlideTableViewController.swift */,
+				A2B482DB21854BE40069579A /* CheckViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -249,6 +257,7 @@
 				02FD64C621101A31003A0C2A /* MockCustomerContext.swift */,
 				02BCF990211169B80031ACC1 /* StripeAPIClient.swift */,
 				A2D02C642148E112009BEA95 /* User.swift */,
+				A2B482DD2185BB7F0069579A /* Order.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -487,6 +496,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-SharEats/Pods-SharEats-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
+				"${BUILT_PRODUCTS_DIR}/QRCodeReader.swift/QRCodeReader.framework",
 				"${BUILT_PRODUCTS_DIR}/SideMenu/SideMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
@@ -495,6 +505,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QRCodeReader.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SideMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
@@ -512,8 +523,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2D02C632148CB7E009BEA95 /* ProfileVC.swift in Sources */,
+				A25B49402183084800CD3E1A /* SlideTableViewController.swift in Sources */,
+				A2B482DE2185BB7F0069579A /* Order.swift in Sources */,
 				02BAFECE20F026E400E991FF /* SignUpVC.swift in Sources */,
 				02BD82A120AAE50B00B504D0 /* Restaurant.swift in Sources */,
+				A2B482DC21854BE50069579A /* CheckViewController.swift in Sources */,
 				02BAFED020F02E0200E991FF /* Menu.swift in Sources */,
 				A2D02C652148E112009BEA95 /* User.swift in Sources */,
 				024C9A002077FA8300227D13 /* AppDelegate.swift in Sources */,
