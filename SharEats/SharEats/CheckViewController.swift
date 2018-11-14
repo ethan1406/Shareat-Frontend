@@ -7,17 +7,40 @@
 //
 
 import UIKit
+import PusherSwift
+import Alamofire
 
 
-class CheckViewController: UIViewController {
+class CheckViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
     
     var orders: [Order]?
+    var partyId: String?
     var buttonBar: UIView!
     
+    
+    //used to detect double tap
+    var lastClick: TimeInterval = Date().timeIntervalSince1970
+    var lastIndexPath: IndexPath?
+    
+    @IBOutlet weak var orderList: UITableView!
     @IBOutlet weak var groupOrIndividual: UISegmentedControl!
+    
+    let pusher = Pusher(
+        key: "96771d53b6966f07b9f3",
+        options: PusherClientOptions(
+            host: .cluster("us2")
+        )
+    )
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        orderList.delegate = self
+        orderList.dataSource = self
+        orderList.alwaysBounceVertical = false
+        orderList.estimatedRowHeight = 44
+        orderList.rowHeight = UITableViewAutomaticDimension
         
         buttonBar = UIView()
         buttonBar.translatesAutoresizingMaskIntoConstraints = false
@@ -36,22 +59,60 @@ class CheckViewController: UIViewController {
         groupOrIndividual.tintColor = .clear
         
         groupOrIndividual.setTitleTextAttributes([
-            NSAttributedStringKey.font : UIFont(name: "DINCondensed-Bold", size: 18),
+            NSAttributedStringKey.font : UIFont.systemFont(ofSize: 18.0),
             NSAttributedStringKey.foregroundColor: UIColor.lightGray
             ], for: .normal)
         
         groupOrIndividual.setTitleTextAttributes([
-            NSAttributedStringKey.font : UIFont(name: "DINCondensed-Bold", size: 18),
+            NSAttributedStringKey.font :UIFont.systemFont(ofSize: 18.0),
             NSAttributedStringKey.foregroundColor: UIColor.orange
             ], for: .selected)
         
         groupOrIndividual.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: UIControlEvents.valueChanged)
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        for order in orders!{
-            print(order.name)
+        // subscribe to channel and bind to event
+        let channel = pusher.subscribe(partyId!)
+        
+        let _ = channel.bind(eventName: "splitting", callback: { (data: Any?) -> Void in
+            if let data = data as? [String : AnyObject] {
+                guard let orderId = data["orderId"] as? String, let name = data["name"] as? String else {
+                    return
+                }
+
+                var row: Int = -1
+                for (index, element) in self.orders!.enumerated() {
+                    if element.orderId == orderId {
+                        row = index
+                    }
+                }
+                self.addNameToCell(atIndex: row, addName: name, backgroundColor: .black)
+                
+            }
+        })
+        
+        pusher.connect()
+
+    }
+    
+    func addNameToCell(atIndex index: Int, addName name: String, backgroundColor: UIColor = .clear) {
+        let indexPath = IndexPath(row: index, section: 0)
+        if let cell = orderList.cellForRow(at: indexPath) {
+            cell.backgroundColor = backgroundColor
         }
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        pusher.disconnect()
+    }
+    
+    
+    
     
     @IBAction func cancelButtonPressed(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
@@ -73,5 +134,88 @@ class CheckViewController: UIViewController {
         }
     }
 
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return orders!.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CheckTableViewCell", for: indexPath) as! CheckTableViewCell
+        cell.dishName.text = orders![indexPath.row].name
+        cell.selectionStyle = .none
+        
+        guard let customers = orders![indexPath.row].buyers else {
+            return cell
+        }
+
+        for (index, element) in customers.enumerated() {
+            let name = createSharedDishCustomer("EC", at: index, parentView: cell.sharedByView.bounds)
+            cell.sharedByView.addSubview(name)
+        }
+
+        return cell
+    }
+
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        
+        let now: TimeInterval = Date().timeIntervalSince1970
+        if (now - lastClick < 0.3) && (lastIndexPath?.row == indexPath.row )
+        {
+            var isBuyer: Bool = false
+            for buyer in orders![indexPath.row].buyers! {
+                if buyer["userId"] == UserDefaults.standard.string(forKey: "userId") {
+                    isBuyer = true
+                    print("yes")
+                }
+            }
+            splitOrder(orders![indexPath.row].orderId)
+        }
+        lastClick = now
+        lastIndexPath = indexPath
+    }
+    
+    func createSharedDishCustomer(_ name: String, at position: Int, parentView parent: CGRect) -> UILabel {
+        let name = UILabel(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
+        name.textAlignment = .center
+        name.textColor = .white
+        name.text = "EC"
+        name.center = CGPoint(x: parent.size.width - 114 - CGFloat(position) * 30, y: parent.size.height/4)
+        
+        name.layer.cornerRadius = name.frame.width/2
+        name.backgroundColor = .orange
+        name.layer.masksToBounds = true
+        name.adjustsFontSizeToFitWidth = true
+        return name
+    }
+
+    
+    func splitOrder(_ orderId: String) {
+        let baseURLString = "https://www.shareatpay.com/order/split"
+        guard
+            !baseURLString.isEmpty,
+            let url = URL(string: baseURLString) else {
+                return
+        }
+        
+        let parameters: [String: Any] = [
+            "partyId": partyId!,
+            "orderId": orderId
+        ]
+        
+        Alamofire.request(url, method: .post, parameters: parameters).responseJSON { (response) in
+            if(response.response?.statusCode == 200) {
+                guard let json = response.result.value as? [String: Any] else {
+                    return
+                }
+                
+            } else if(response.response?.statusCode == 404){
+                
+                
+                return
+            }
+            
+        }
+    }
 }
 

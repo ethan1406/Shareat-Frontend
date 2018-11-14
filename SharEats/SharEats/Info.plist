@@ -26,12 +26,8 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Used to identify which restaurants are closest to you</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Used to identify which restaurants are closest to you</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Used to identify which restaurants are closest to you</string>
+	<string>Used to identify your nearby restaurants</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

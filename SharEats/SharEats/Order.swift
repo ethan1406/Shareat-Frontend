@@ -8,12 +8,17 @@
 
 import Foundation
 
+
 class Order {
-    var name:String
-    var buyers:[String]?
     
-    init(name: String, buyers: [String]?) {
+    
+    var name: String
+    var buyers: [[String:String]]?
+    var orderId: String
+    
+    init(name: String, buyers: [[String:String]]?, orderId: String) {
         self.name = name
         self.buyers = buyers
+        self.orderId = orderId
     }
 }

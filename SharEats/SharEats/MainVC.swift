@@ -56,8 +56,8 @@ class MainVC: UIViewController {
                 self.errorField.text = error
                 return
             }
-            print(user!.email)
-            UserDefaults.standard.set(user!.email,forKey: "email")
+            UserDefaults.standard.set(user!.email, forKey: "email")
+            UserDefaults.standard.set(user!.userId, forKey: "userId")
             
             let storyboard = UIStoryboard(name: "Search", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "Search") as UIViewController
@@ -90,7 +90,11 @@ class MainVC: UIViewController {
                     completion(nil, nil)
                     return
                 }
-                completion(User(email:email), nil)
+                guard let userId = json["id"] as? String else{
+                    completion(nil, nil)
+                    return
+                }
+                completion(User(email: email, userId: userId), nil)
             } else {
                 guard let errorMessage = json["error"] as? String else {
                     completion(nil, nil)

@@ -11,6 +11,7 @@ target 'SharEats' do
   pod 'SideMenu'
   pod 'Alamofire'
   pod 'AlamofireImage', '~> 3.3'
+  pod 'PusherSwift'
   pod 'QRCodeReader.swift', '~> 9.0.1'
 
   target 'SharEatsTests' do
