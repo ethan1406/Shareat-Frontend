@@ -10,9 +10,11 @@ import UIKit
 
 class CheckTableViewCell: UITableViewCell {
 
+
 //    @IBOutlet weak var dishName: UILabel!
 //    @IBOutlet weak var sharedByView: UIView!
     var dishName : String?
+
     
     var dishLabel : UILabel = {
         var label = UILabel()
@@ -65,6 +67,20 @@ class CheckTableViewCell: UITableViewCell {
 //        // Initialization code
 //    }
 
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        if let text = dishText {
+            dishName.text = text
+        }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
