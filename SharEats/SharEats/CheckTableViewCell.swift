@@ -10,37 +10,63 @@ import UIKit
 
 class CheckTableViewCell: UITableViewCell {
 
-    var dishText : String?
+
+//    @IBOutlet weak var dishName: UILabel!
+//    @IBOutlet weak var sharedByView: UIView!
+    var dishName : String?
+
     
-    var dishName = UILabel()
-    var sharedByView = UIView()
+    var dishLabel : UILabel = {
+        var label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 3
+        return label
+    }()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+    var sharedByView : UIView = {
+        var view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        dishName = UILabel()
-        sharedByView = UIView()
+        self.addSubview(dishLabel)
+        self.addSubview(sharedByView)
         
-        dishName.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        dishName.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        dishName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        dishName.widthAnchor.constraint(equalToConstant: 150)
+        dishLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 15).isActive = true
+        dishLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
+        dishLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5).isActive = true
+        dishLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
         
-        contentView.addSubview(dishName)
-        
-        sharedByView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        sharedByView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        sharedByView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        sharedByView.leadingAnchor.constraint(equalTo: dishName.trailingAnchor).isActive = true
-        
-        contentView.addSubview(sharedByView)
-        //productImage.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 90, height: 0, enableInsets: false)
-
+        sharedByView.leftAnchor.constraint(equalTo: self.dishLabel.rightAnchor).isActive = true
+        sharedByView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        sharedByView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        sharedByView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if let message = dishName {
+            dishLabel.text = message
+        }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("Init(coder:) has not been impolemented")
+    }
+    
+//    override func awakeFromNib() {
+//        super.awakeFromNib()
+//        // Initialization code
+//    }
+
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

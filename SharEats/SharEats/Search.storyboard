@@ -309,16 +309,8 @@
                                     <action selector="cancelButtonPressed:" destination="Qxs-02-Fbn" eventType="touchUpInside" id="N64-CH-6YE"/>
                                 </connections>
                             </button>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gjI-5R-e02">
-                                <rect key="frame" x="0.0" y="829" width="414" height="29"/>
-                                <segments>
-                                    <segment title="My Orders"/>
-                                    <segment title="Group Orders"/>
-                                </segments>
-                                <color key="tintColor" red="1" green="0.66741962499999996" blue="0.2898992373" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Double Tap the Dishes You've Shared!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P25-qu-djD">
-                                <rect key="frame" x="99.666666666666686" y="794.66666666666663" width="215" height="14.333333333333371"/>
+                                <rect key="frame" x="99.666666666666686" y="827.66666666666663" width="215" height="14.333333333333371"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
@@ -329,19 +321,31 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vnX-2B-y2n">
-                                <rect key="frame" x="0.0" y="134" width="414" height="595.66666666666663"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="BrE-iD-hyB">
+                                <rect key="frame" x="0.0" y="144" width="414" height="29"/>
+                                <segments>
+                                    <segment title="Group Orders"/>
+                                    <segment title="My Orders"/>
+                                </segments>
+                                <color key="tintColor" red="1" green="0.66741962499999996" blue="0.2898992373" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </segmentedControl>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vnX-2B-y2n">
+                                <rect key="frame" x="0.0" y="202" width="414" height="580.66666666666663"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CheckTableViewCell" id="vFI-sx-dfp" customClass="CheckTableViewCell" customModule="SharEats" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="100"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vFI-sx-dfp" id="jfZ-oz-q3S">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="99.666666666666671"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DIish Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ve1-Zy-JnL">
-                                                    <rect key="frame" x="20" y="41.333333333333336" width="150" height="17"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fMI-ES-pp3">
+                                                    <rect key="frame" x="170" y="0.0" width="150" height="43.666666666666664"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DIish Name" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ve1-Zy-JnL">
+                                                    <rect key="frame" x="20" y="11" width="150" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="150" id="qnh-Lv-Arh"/>
                                                     </constraints>
@@ -349,18 +353,15 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fMI-ES-pp3">
-                                                    <rect key="frame" x="170" y="0.0" width="224" height="99.666666666666671"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="fMI-ES-pp3" firstAttribute="leading" secondItem="ve1-Zy-JnL" secondAttribute="trailing" id="2RT-Io-uPP"/>
+                                                <constraint firstItem="ve1-Zy-JnL" firstAttribute="top" secondItem="jfZ-oz-q3S" secondAttribute="topMargin" id="4fO-TR-mqH"/>
                                                 <constraint firstAttribute="bottom" secondItem="fMI-ES-pp3" secondAttribute="bottom" id="AFq-An-S6D"/>
-                                                <constraint firstItem="ve1-Zy-JnL" firstAttribute="centerY" secondItem="jfZ-oz-q3S" secondAttribute="centerY" id="R3y-Jg-U0P"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="ve1-Zy-JnL" secondAttribute="bottom" id="Erd-6u-wM5"/>
                                                 <constraint firstItem="ve1-Zy-JnL" firstAttribute="leading" secondItem="jfZ-oz-q3S" secondAttribute="leading" constant="20" id="jLp-0k-Rfk"/>
                                                 <constraint firstItem="fMI-ES-pp3" firstAttribute="top" secondItem="jfZ-oz-q3S" secondAttribute="top" id="nph-PU-jCS"/>
-                                                <constraint firstAttribute="trailing" secondItem="fMI-ES-pp3" secondAttribute="trailing" constant="20" id="zPg-zr-Cyf"/>
+                                                <constraint firstAttribute="trailing" secondItem="fMI-ES-pp3" secondAttribute="trailing" id="zPg-zr-Cyf"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -374,30 +375,30 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="mDU-Ec-Owd" firstAttribute="bottom" secondItem="gjI-5R-e02" secondAttribute="bottom" constant="5" id="1N9-VZ-wF7"/>
-                            <constraint firstItem="gjI-5R-e02" firstAttribute="leading" secondItem="mDU-Ec-Owd" secondAttribute="leading" id="7zc-aD-tHm"/>
                             <constraint firstItem="2Xk-u5-mhJ" firstAttribute="top" secondItem="bwq-h1-udt" secondAttribute="bottom" constant="10" id="AJ7-X6-VX7"/>
-                            <constraint firstItem="vnX-2B-y2n" firstAttribute="top" secondItem="2Xk-u5-mhJ" secondAttribute="bottom" constant="20" id="GQa-gR-4tg"/>
+                            <constraint firstItem="vnX-2B-y2n" firstAttribute="top" secondItem="BrE-iD-hyB" secondAttribute="bottom" constant="30" id="DoI-bR-OUC"/>
+                            <constraint firstItem="BrE-iD-hyB" firstAttribute="trailing" secondItem="mDU-Ec-Owd" secondAttribute="trailing" id="EZg-ip-9MP"/>
                             <constraint firstItem="bwq-h1-udt" firstAttribute="top" secondItem="mDU-Ec-Owd" secondAttribute="top" constant="5" id="HQg-Ry-NpV"/>
+                            <constraint firstItem="P25-qu-djD" firstAttribute="top" secondItem="vnX-2B-y2n" secondAttribute="bottom" constant="45" id="Ma8-fF-ya2"/>
                             <constraint firstItem="P25-qu-djD" firstAttribute="centerX" secondItem="duB-8l-cid" secondAttribute="centerX" id="R5L-AI-5I0"/>
                             <constraint firstItem="vnX-2B-y2n" firstAttribute="leading" secondItem="mDU-Ec-Owd" secondAttribute="leading" id="TLi-Ad-tK2"/>
+                            <constraint firstItem="BrE-iD-hyB" firstAttribute="top" secondItem="2Xk-u5-mhJ" secondAttribute="bottom" constant="30" id="Xvw-AN-WxG"/>
                             <constraint firstItem="bwq-h1-udt" firstAttribute="leading" secondItem="mDU-Ec-Owd" secondAttribute="leading" constant="5" id="Xzi-9G-BAm"/>
-                            <constraint firstItem="gjI-5R-e02" firstAttribute="top" secondItem="P25-qu-djD" secondAttribute="bottom" constant="20" id="biS-xg-bAR"/>
                             <constraint firstItem="vnX-2B-y2n" firstAttribute="trailing" secondItem="mDU-Ec-Owd" secondAttribute="trailing" id="cZt-9e-wM8"/>
-                            <constraint firstItem="gjI-5R-e02" firstAttribute="trailing" secondItem="mDU-Ec-Owd" secondAttribute="trailing" id="ndb-Dv-89g"/>
-                            <constraint firstItem="P25-qu-djD" firstAttribute="top" secondItem="vnX-2B-y2n" secondAttribute="bottom" constant="65" id="qAq-Y4-UGA"/>
+                            <constraint firstItem="BrE-iD-hyB" firstAttribute="leading" secondItem="mDU-Ec-Owd" secondAttribute="leading" id="nta-XX-8i4"/>
+                            <constraint firstItem="mDU-Ec-Owd" firstAttribute="bottom" secondItem="P25-qu-djD" secondAttribute="bottom" constant="20" id="q3Q-hM-Gfe"/>
                             <constraint firstItem="2Xk-u5-mhJ" firstAttribute="leading" secondItem="mDU-Ec-Owd" secondAttribute="leading" constant="10" id="vc8-TH-Cr4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="mDU-Ec-Owd"/>
                     </view>
                     <connections>
-                        <outlet property="groupOrIndividual" destination="gjI-5R-e02" id="LpK-7D-Kl4"/>
+                        <outlet property="groupOrIndividual" destination="BrE-iD-hyB" id="3vK-70-v2F"/>
                         <outlet property="orderList" destination="vnX-2B-y2n" id="VwQ-nB-3B7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GM7-MB-HtU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="871.01449275362324" y="-752.00892857142856"/>
+            <point key="canvasLocation" x="868.125" y="-753.16901408450701"/>
         </scene>
     </scenes>
     <resources>
