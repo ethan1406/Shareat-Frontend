@@ -18,6 +18,7 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
     var partyId: String?
     var buttonBar: UIView!
     
+    var colors: [UIColor] = [.orange, .red, .purple, .magenta]
     
     //used to detect double tap
     var lastClick: TimeInterval = Date().timeIntervalSince1970
@@ -39,8 +40,13 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
         orderList.delegate = self
         orderList.dataSource = self
         orderList.alwaysBounceVertical = false
-        orderList.estimatedRowHeight = 44
+        orderList.register(CheckTableViewCell.self, forCellReuseIdentifier: "CheckTableViewCell2")
+        orderList.estimatedRowHeight = 100
         orderList.rowHeight = UITableViewAutomaticDimension
+        orderList.separatorStyle = UITableViewCellSeparatorStyle.none
+        orderList.alwaysBounceVertical = false
+        orderList.bounces = false
+        orderList.showsVerticalScrollIndicator = false
         
         buttonBar = UIView()
         buttonBar.translatesAutoresizingMaskIntoConstraints = false
@@ -102,7 +108,8 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
     func addNameToCell(atIndex index: Int, addName name: String, backgroundColor: UIColor = .clear) {
         let indexPath = IndexPath(row: index, section: 0)
         if let cell = orderList.cellForRow(at: indexPath) {
-            cell.backgroundColor = backgroundColor
+            
+            
         }
     }
     
@@ -139,8 +146,13 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CheckTableViewCell", for: indexPath) as! CheckTableViewCell
-        cell.dishName.text = orders![indexPath.row].name
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CheckTableViewCell2", for: indexPath) as! CheckTableViewCell
+        for view:UIView in cell.contentView.subviews {
+            view.removeFromSuperview()
+        }
+        
+        
+        cell.dishName = orders![indexPath.row].name
         cell.selectionStyle = .none
         
         guard let customers = orders![indexPath.row].buyers else {
@@ -148,14 +160,19 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
 
         for (index, element) in customers.enumerated() {
-            let name = createSharedDishCustomer("EC", at: index, parentView: cell.sharedByView.bounds)
-            cell.sharedByView.addSubview(name)
+            let name = createSharedDishCustomer("EC", at: index, parentView: cell.contentView, color: .orange)
+            cell.contentView.addSubview(name)
+
+
         }
+        
+        cell.layoutSubviews()
 
         return cell
     }
 
 
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         
@@ -175,15 +192,17 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
         lastIndexPath = indexPath
     }
     
-    func createSharedDishCustomer(_ name: String, at position: Int, parentView parent: CGRect) -> UILabel {
+    
+    func createSharedDishCustomer(_ name: String, at position: Int, parentView parent: UIView, color color: UIColor) -> UILabel {
         let name = UILabel(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
         name.textAlignment = .center
         name.textColor = .white
         name.text = "EC"
-        name.center = CGPoint(x: parent.size.width - 114 - CGFloat(position) * 30, y: parent.size.height/4)
+        name.center.x = parent.bounds.size.width - 25 - CGFloat(position) * 30
+        name.center.y = parent.center.y
         
         name.layer.cornerRadius = name.frame.width/2
-        name.backgroundColor = .orange
+        name.backgroundColor = color
         name.layer.masksToBounds = true
         name.adjustsFontSizeToFitWidth = true
         return name
