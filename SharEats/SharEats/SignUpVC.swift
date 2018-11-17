@@ -10,6 +10,8 @@ import UIKit
 
 class SignUpVC: UIViewController {
     
+    @IBOutlet weak var firstNameField: UITextField!
+    @IBOutlet weak var lastNameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var confirmField: UITextField!
@@ -18,6 +20,12 @@ class SignUpVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        firstNameField.setBottomBorder()
+        lastNameField.setBottomBorder()
+        emailField.setBottomBorder()
+        passwordField.setBottomBorder()
+        confirmField.setBottomBorder()
+        
         errorLabel.isHidden = true
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SignUpVC.dismissKeyboard))
         view.addGestureRecognizer(tap)
@@ -65,4 +73,22 @@ class SignUpVC: UIViewController {
     }
     */
 
+}
+
+extension UITextField {
+    func setBottomBorder() {
+        self.borderStyle = .none
+        self.layer.backgroundColor = UIColor.white.cgColor
+        
+        self.layer.masksToBounds = false
+        self.layer.shadowColor = UIColor.gray.cgColor
+        self.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
+        self.layer.shadowOpacity = 1.0
+        self.layer.shadowRadius = 0.0
+        
+        if let placeholder = self.placeholder {
+            self.attributedPlaceholder = NSAttributedString(string:placeholder,
+                         attributes: [NSAttributedStringKey.foregroundColor: UIColor.black])
+        }
+    }
 }

@@ -19,6 +19,7 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
     var buttonBar: UIView!
     
     var colors: [UIColor] = [.orange, .red, .purple, .magenta]
+    var names: [[UILabel]]?
     
     //used to detect double tap
     var lastClick: TimeInterval = Date().timeIntervalSince1970
@@ -37,13 +38,15 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        names = Array(repeating: Array(repeating: UILabel(), count: 0), count: orders!.count)
+        
         orderList.delegate = self
         orderList.dataSource = self
         orderList.alwaysBounceVertical = false
         orderList.register(CheckTableViewCell.self, forCellReuseIdentifier: "CheckTableViewCell2")
         orderList.estimatedRowHeight = 100
         orderList.rowHeight = UITableViewAutomaticDimension
-        orderList.separatorStyle = UITableViewCellSeparatorStyle.none
+        //orderList.separatorStyle = UITableViewCellSeparatorStyle.none
         orderList.alwaysBounceVertical = false
         orderList.bounces = false
         orderList.showsVerticalScrollIndicator = false
@@ -89,10 +92,10 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
                 guard let orderId = data["orderId"] as? String, let name = data["name"] as? String else {
                     return
                 }
-
                 var row: Int = -1
                 for (index, element) in self.orders!.enumerated() {
                     if element.orderId == orderId {
+                        
                         row = index
                     }
                 }
@@ -107,9 +110,24 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func addNameToCell(atIndex index: Int, addName name: String, backgroundColor: UIColor = .clear) {
         let indexPath = IndexPath(row: index, section: 0)
+        
         if let cell = orderList.cellForRow(at: indexPath) {
-            
-            
+            let name = createSharedDishCustomer("EC", at: 0, parentView: cell.contentView, color: .orange)
+            name.alpha = 0
+            cell.contentView.addSubview(name)
+            if orders![index].buyers == nil || orders![index].buyers!.count == 0 {
+                UIView.animate(withDuration: 0.5, animations: {
+                    name.alpha = 1.0
+                })
+            } else {
+                UIView.animate(withDuration: 0.5, animations: {
+                    for name : UILabel in self.names![index] {
+                        name.center.x = name.center.x - 30
+                    }
+                    name.alpha = 1.0
+                })
+                
+            }
         }
     }
     
@@ -117,10 +135,7 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewWillDisappear(animated)
         pusher.disconnect()
     }
-    
-    
-    
-    
+
     @IBAction func cancelButtonPressed(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -151,7 +166,6 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
             view.removeFromSuperview()
         }
         
-        
         cell.dishName = orders![indexPath.row].name
         cell.selectionStyle = .none
         
@@ -162,8 +176,7 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
         for (index, element) in customers.enumerated() {
             let name = createSharedDishCustomer("EC", at: index, parentView: cell.contentView, color: .orange)
             cell.contentView.addSubview(name)
-
-
+            names![indexPath.row].append(name)
         }
         
         cell.layoutSubviews()
@@ -204,6 +217,7 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
         name.layer.cornerRadius = name.frame.width/2
         name.backgroundColor = color
         name.layer.masksToBounds = true
+        name.autoresizingMask = [.flexibleLeftMargin, .flexibleBottomMargin, .flexibleTopMargin]
         name.adjustsFontSizeToFitWidth = true
         return name
     }
