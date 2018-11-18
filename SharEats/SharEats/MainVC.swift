@@ -12,12 +12,14 @@ import Alamofire
 class MainVC: UIViewController {
 
     @IBOutlet weak var userField: UITextField!
-    
     @IBOutlet weak var errorField: UILabel!
     @IBOutlet weak var passwordField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        userField.setBottomBorder()
+        passwordField.setBottomBorder()
+        
         errorField.isHidden = true
         NotificationCenter.default.addObserver(self, selector: #selector(MainVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(MainVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -31,12 +33,16 @@ class MainVC: UIViewController {
         UserDefaults.standard.removePersistentDomain(forName: domain)
         UserDefaults.standard.synchronize()
         
-        
         //DELETE LATER
         userField.text = "ethan3@gmail.com"
         passwordField.text = "haha12345"
     }
 
+    @IBAction func goBack(_ sender: UIButton) {
+        self.navigationController?.popToRootViewController(animated: true)
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -86,15 +92,15 @@ class MainVC: UIViewController {
             }
             
             if(response.response?.statusCode == 200) {
-                guard let email = json["email"] as? String else{
-                    completion(nil, nil)
-                    return
+                guard let email = json["email"] as? String,
+                    let userId = json["id"] as? String,
+                    let firstName = json["firstName"] as? String,
+                    let lastName = json["lastName"] as? String
+                    else{
+                        completion(nil, nil)
+                        return
                 }
-                guard let userId = json["id"] as? String else{
-                    completion(nil, nil)
-                    return
-                }
-                completion(User(email: email, userId: userId), nil)
+                completion(User(email: email, userId: userId, firstName: firstName, lastName: lastName), nil)
             } else {
                 guard let errorMessage = json["error"] as? String else {
                     completion(nil, nil)
@@ -103,10 +109,6 @@ class MainVC: UIViewController {
                 completion(nil, errorMessage)
             }
         }
-    }
-
-    @IBAction func signupPressed(_ sender: Any) {
-        self.performSegue(withIdentifier: "signupSegue", sender: self)
     }
     
     @objc func dismissKeyboard() {

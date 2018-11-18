@@ -59,7 +59,7 @@ class CheckTableViewCell: UITableViewCell {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("Init(coder:) has not been impolemented")
+        fatalError("Init(coder:) has not been implemented")
     }
     
 //    override func awakeFromNib() {
@@ -67,19 +67,6 @@ class CheckTableViewCell: UITableViewCell {
 //        // Initialization code
 //    }
 
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
-        if let text = dishText {
-            dishName.text = text
-        }
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-    }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class SignUpVC: UIViewController {
     
@@ -26,10 +27,17 @@ class SignUpVC: UIViewController {
         passwordField.setBottomBorder()
         confirmField.setBottomBorder()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(SignUpVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SignUpVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
         errorLabel.isHidden = true
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SignUpVC.dismissKeyboard))
         view.addGestureRecognizer(tap)
         // Do any additional setup after loading the view.
+        
+        let domain = Bundle.main.bundleIdentifier!
+        UserDefaults.standard.removePersistentDomain(forName: domain)
+        UserDefaults.standard.synchronize()
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,24 +45,91 @@ class SignUpVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func signupPressed(_ sender: Any) {
-        
-        if passwordField.text == confirmField.text {
-            let url = "https://www.shareatpay.com/signup?email="+emailField.text!+"&password="+passwordField.text!
-            let json = HelperFunctions.requestJson(url: url, method: "POST")
-            
-            print(json["status"].intValue)
-            if json["status"].intValue == 0 {
-                dismiss(animated: true, completion: nil)
-            }
-            else {
-                errorLabel.text = json["message"].stringValue
-                errorLabel.isHidden = false
-            }
-        }
-        else {
-            errorLabel.text = "Passwords do not match"
+    @IBAction func goBack(_ sender: UIButton) {
+        self.navigationController?.popToRootViewController(animated: true)
+    }
+    
+    @IBAction func signupPressed(_ sender: UIButton) {
+        guard !firstNameField.text!.isEmpty else {
             errorLabel.isHidden = false
+            errorLabel.text = "Please enter your first name"
+            return
+        }
+        
+        guard !lastNameField.text!.isEmpty else {
+            errorLabel.isHidden = false
+            errorLabel.text = "Please enter your last name"
+            return
+        }
+        
+        guard !passwordField.text!.isEmpty else {
+            errorLabel.isHidden = false
+            errorLabel.text = "Please enter your password"
+            return
+        }
+        
+        guard passwordField.text! == confirmField.text! else {
+            errorLabel.isHidden = false
+            errorLabel.text = "Passwords do not match"
+            return
+        }
+        
+        signUpUser(){(user, error) in
+            guard error == nil else {
+                self.errorLabel.isHidden = false
+                self.errorLabel.text = error
+                return
+            }
+            
+            UserDefaults.standard.set(user!.email, forKey: "email")
+            UserDefaults.standard.set(user!.userId, forKey: "userId")
+            
+            let storyboard = UIStoryboard(name: "Search", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "Search") as UIViewController
+            self.present(vc, animated: true, completion: nil)
+        }
+    }
+    
+    func signUpUser(completion: @escaping (User?,String?)->Void) {
+        let baseURLString = "https://www.shareatpay.com/signup"
+        guard
+            !baseURLString.isEmpty,
+            let url = URL(string: baseURLString) else {
+                return
+        }
+        
+        let parameters: [String: Any] = [
+            "email": emailField.text!,
+            "password": passwordField.text!,
+            "firstName": firstNameField.text!,
+            "lastName": lastNameField.text!
+        ]
+        
+        Alamofire.request(url, method: .post, parameters: parameters).responseJSON { (response) in
+            
+            guard let json = response.result.value as? [String: Any] else {
+                completion(nil, nil)
+                return
+            }
+            
+            if(response.response?.statusCode == 200) {
+                guard let email = json["email"] as? String,
+                let userId = json["id"] as? String,
+                let firstName = json["firstName"] as? String,
+                let lastName = json["lastName"] as? String
+                    else{
+                    completion(nil, nil)
+                    return
+                }
+                completion(User(email: email, userId: userId, firstName: firstName, lastName: lastName), nil)
+                
+            } else {
+                guard let errorMessage = json["error"] as? String else {
+                    completion(nil, nil)
+                    return
+                }
+                completion(nil, errorMessage)
+            }
         }
     }
     
@@ -63,6 +138,21 @@ class SignUpVC: UIViewController {
         view.endEditing(true)
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0{
+                self.view.frame.origin.y -= keyboardSize.height/2
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            //            if self.view.frame.origin.y != 0{
+            self.view.frame.origin.y = 0
+            //            }
+        }
+    }
     /*
     // MARK: - Navigation
 

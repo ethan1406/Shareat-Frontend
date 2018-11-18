@@ -17,7 +17,6 @@
 		02BA1C5E20F1A79400B8115E /* MenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BA1C5D20F1A79400B8115E /* MenuItemCell.swift */; };
 		02BA1C6020F1ACCA00B8115E /* MenuItemPage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02BA1C5F20F1ACCA00B8115E /* MenuItemPage.storyboard */; };
 		02BA1C6220F1AD7300B8115E /* MenuItemPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BA1C6120F1AD7300B8115E /* MenuItemPageVC.swift */; };
-		02BAFECC20F0265B00E991FF /* SignUp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02BAFECB20F0265B00E991FF /* SignUp.storyboard */; };
 		02BAFECE20F026E400E991FF /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BAFECD20F026E400E991FF /* SignUpVC.swift */; };
 		02BAFED020F02E0200E991FF /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BAFECF20F02E0200E991FF /* Menu.swift */; };
 		02BCF991211169B80031ACC1 /* StripeAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BCF990211169B80031ACC1 /* StripeAPIClient.swift */; };
@@ -43,6 +42,7 @@
 		A2D02C632148CB7E009BEA95 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D02C622148CB7E009BEA95 /* ProfileVC.swift */; };
 		A2D02C652148E112009BEA95 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D02C642148E112009BEA95 /* User.swift */; };
 		A2F9F4AC218858F400C99B13 /* CheckTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F9F4AB218858F400C99B13 /* CheckTableViewCell.swift */; };
+		A2FF5D5721A1053F00CF871C /* PushNoAnimationSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FF5D5621A1053F00CF871C /* PushNoAnimationSegue.swift */; };
 		A3270CB3AC1B592B6437A08D /* Pods_SharEatsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1DA055B125F7D992F0B7C5B /* Pods_SharEatsUITests.framework */; };
 		A97C2E4F6957735734D1CA87 /* Pods_SharEats_SharEatsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF5A5AC915417311748DD672 /* Pods_SharEats_SharEatsUITests.framework */; };
 		D7CD774A5D8DA335FEC8FE7A /* Pods_SharEatsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0DC3EA1F1D8F58AF66DEDA /* Pods_SharEatsTests.framework */; };
@@ -82,7 +82,6 @@
 		02BA1C5D20F1A79400B8115E /* MenuItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemCell.swift; sourceTree = "<group>"; };
 		02BA1C5F20F1ACCA00B8115E /* MenuItemPage.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MenuItemPage.storyboard; sourceTree = "<group>"; };
 		02BA1C6120F1AD7300B8115E /* MenuItemPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemPageVC.swift; sourceTree = "<group>"; };
-		02BAFECB20F0265B00E991FF /* SignUp.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignUp.storyboard; sourceTree = "<group>"; };
 		02BAFECD20F026E400E991FF /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		02BAFECF20F02E0200E991FF /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		02BCF990211169B80031ACC1 /* StripeAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeAPIClient.swift; sourceTree = "<group>"; };
@@ -114,6 +113,7 @@
 		A2D02C622148CB7E009BEA95 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		A2D02C642148E112009BEA95 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A2F9F4AB218858F400C99B13 /* CheckTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckTableViewCell.swift; sourceTree = "<group>"; };
+		A2FF5D5621A1053F00CF871C /* PushNoAnimationSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNoAnimationSegue.swift; sourceTree = "<group>"; };
 		C762A5ABDDF6B315B2D48DF2 /* Pods-SharEats-SharEatsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharEats-SharEatsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SharEats-SharEatsTests/Pods-SharEats-SharEatsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D1DA055B125F7D992F0B7C5B /* Pods_SharEatsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SharEatsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8E9450481EB5AB2E90E1151 /* Pods-SharEatsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharEatsUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SharEatsUITests/Pods-SharEatsUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -216,7 +216,6 @@
 				02F241362089201D00743FFD /* Service.storyboard */,
 				02F2413A2089203700743FFD /* Profile.storyboard */,
 				02F241382089202800743FFD /* Payment.storyboard */,
-				02BAFECB20F0265B00E991FF /* SignUp.storyboard */,
 				02BA1C5F20F1ACCA00B8115E /* MenuItemPage.storyboard */,
 			);
 			name = Storyboard;
@@ -227,6 +226,7 @@
 			children = (
 				024C99FF2077FA8300227D13 /* AppDelegate.swift */,
 				024C9A062077FA8300227D13 /* Assets.xcassets */,
+				A2FF5D5621A1053F00CF871C /* PushNoAnimationSegue.swift */,
 			);
 			name = Others;
 			sourceTree = "<group>";
@@ -410,7 +410,6 @@
 				024C9A072077FA8300227D13 /* Assets.xcassets in Resources */,
 				02F241352089200800743FFD /* Menu.storyboard in Resources */,
 				02BA1C6020F1ACCA00B8115E /* MenuItemPage.storyboard in Resources */,
-				02BAFECC20F0265B00E991FF /* SignUp.storyboard in Resources */,
 				02F2413320891FDE00743FFD /* Search.storyboard in Resources */,
 				024C9A052077FA8300227D13 /* Main.storyboard in Resources */,
 				02F2413B2089203700743FFD /* Profile.storyboard in Resources */,
@@ -552,6 +551,7 @@
 				02BCF991211169B80031ACC1 /* StripeAPIClient.swift in Sources */,
 				02F0C05520E05A740021922D /* HelperFunctions.swift in Sources */,
 				02BA1C5E20F1A79400B8115E /* MenuItemCell.swift in Sources */,
+				A2FF5D5721A1053F00CF871C /* PushNoAnimationSegue.swift in Sources */,
 				02FD64C721101A31003A0C2A /* MockCustomerContext.swift in Sources */,
 				A21843DE214917540095D317 /* RestaurantTableViewCell.swift in Sources */,
 				02BD829E20AAE11C00B504D0 /* SearchVC.swift in Sources */,
