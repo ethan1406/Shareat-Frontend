@@ -34,7 +34,7 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
         SideMenuManager.default.menuPresentMode = .menuSlideIn
         SideMenuManager.default.menuFadeStatusBar = false
         SideMenuManager.default.menuAnimationFadeStrength = 0.5
-
+        
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SearchVC.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
@@ -42,11 +42,11 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).font = searchBarFont
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes[NSAttributedStringKey.font.rawValue] = searchBarFont
         
-//        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes[NSAttributedStringKey.foregroundColor.rawValue] = UIColor.red
-
+        //        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes[NSAttributedStringKey.foregroundColor.rawValue] = UIColor.red
+        
         self.searchBar.delegate = self
-//        searchBar.isTranslucent = true
-//        searchBar.alpha = 1
+        //        searchBar.isTranslucent = true
+        //        searchBar.alpha = 1
         searchBar.layer.shadowColor = UIColor.black.cgColor
         searchBar.layer.shadowOffset = CGSize(width: 1, height: 1)
         searchBar.layer.shadowOpacity = 1
@@ -54,20 +54,20 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
         searchBar.clipsToBounds = false
         searchBar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
         searchBar.searchTextPositionAdjustment = UIOffsetMake(10.0, 0.0);
-//        self.searchBar.barTintColor = UIColor.clear
-//        let image = self.getImageWithColor(color: UIColor.white, size: CGSize(width: 50, height: 50))
-//        searchBar.setSearchFieldBackgroundImage(image, for: .normal)
-
-
-//        listView.delegate = self
-//        listView.dataSource = self
-//        mapView.delegate = self
-//        listSelected = true
-//
-//        listView.isHidden = false
+        //        self.searchBar.barTintColor = UIColor.clear
+        //        let image = self.getImageWithColor(color: UIColor.white, size: CGSize(width: 50, height: 50))
+        //        searchBar.setSearchFieldBackgroundImage(image, for: .normal)
+        
+        
+        //        listView.delegate = self
+        //        listView.dataSource = self
+        //        mapView.delegate = self
+        //        listSelected = true
+        //
+        //        listView.isHidden = false
         mapView.isHidden = false
         mapView.showsCompass = false;
-
+        
         //setting up map view
         
         locationManager = CLLocationManager()
@@ -76,19 +76,19 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
         
         if CLLocationManager.locationServicesEnabled() {
             switch(CLLocationManager.authorizationStatus()) {
-                case .authorizedAlways, .authorizedWhenInUse:
-                    let currCoordinate = self.locationManager.location?.coordinate
-                    let currLocation = CLLocation(latitude: currCoordinate!.latitude, longitude: currCoordinate!.longitude)
-                    centerMapOnLocation(location: currLocation)
-                    
-                    //collecting nearby restaurants
-                    restaurants = getRestaurant(loc: currLocation)
-                    
-                    for i in restaurants {
-                        mapView.addAnnotation(i)
-                    }
-                default:
-                    break;
+            case .authorizedAlways, .authorizedWhenInUse:
+                let currCoordinate = self.locationManager.location?.coordinate
+                let currLocation = CLLocation(latitude: currCoordinate!.latitude, longitude: currCoordinate!.longitude)
+                centerMapOnLocation(location: currLocation)
+                
+                //collecting nearby restaurants
+                restaurants = getRestaurant(loc: currLocation)
+                
+                for i in restaurants {
+                    mapView.addAnnotation(i)
+                }
+            default:
+                break;
             }
         }
         
@@ -142,7 +142,7 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
         UIGraphicsEndImageContext()
         return image
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -151,55 +151,55 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
     /*
      * Table View delegate/data source functions
      */
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return 1
-//    }
-//
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return restaurants.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath)
-//        cell.textLabel!.text = restaurants[indexPath.row].name
-//        cell.detailTextLabel!.text = restaurants[indexPath.row].address
-//
-//        return cell
-//    }
-//
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        currIndex = indexPath.row
-//        performSegue(withIdentifier: "showMenu", sender: view)
-//    }
-
+    //    func numberOfSections(in tableView: UITableView) -> Int {
+    //        return 1
+    //    }
+    //
+    //    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    //        return restaurants.count
+    //    }
+    //
+    //    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    //        let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath)
+    //        cell.textLabel!.text = restaurants[indexPath.row].name
+    //        cell.detailTextLabel!.text = restaurants[indexPath.row].address
+    //
+    //        return cell
+    //    }
+    //
+    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    //        currIndex = indexPath.row
+    //        performSegue(withIdentifier: "showMenu", sender: view)
+    //    }
+    
     /*
      * Helper Functions
      */
     @IBAction func mapOrSearch(_ sender: UIButton) {
-//        if(listSelected){
-//            mapButton.setImage(#imageLiteral(resourceName: "List"), for: .normal)
-//            listView.isHidden = true
-//            mapView.isHidden = false
-//            listSelected = false;
-//            searchBar.resignFirstResponder()
-//            self.view.endEditing(true)
-//
-//        } else {
-//            mapButton.setImage(#imageLiteral(resourceName: "Map"), for: .normal)
-//            listView.isHidden = false
-//            mapView.isHidden = true
-//            listSelected = true;
-//        }
+        //        if(listSelected){
+        //            mapButton.setImage(#imageLiteral(resourceName: "List"), for: .normal)
+        //            listView.isHidden = true
+        //            mapView.isHidden = false
+        //            listSelected = false;
+        //            searchBar.resignFirstResponder()
+        //            self.view.endEditing(true)
+        //
+        //        } else {
+        //            mapButton.setImage(#imageLiteral(resourceName: "Map"), for: .normal)
+        //            listView.isHidden = false
+        //            mapView.isHidden = true
+        //            listSelected = true;
+        //        }
     }
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-//        mapButton.setImage(#imageLiteral(resourceName: "Map"), for: .normal)
-//        listView.isHidden = false
-//        mapView.isHidden = true
-//        listSelected = true;
+        //        mapButton.setImage(#imageLiteral(resourceName: "Map"), for: .normal)
+        //        listView.isHidden = false
+        //        mapView.isHidden = true
+        //        listSelected = true;
         return true
     }
-
+    
     
     func getRestaurant(loc: CLLocation) -> [Restaurant] {
         var data = [Restaurant]()
@@ -228,19 +228,19 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
         performSegue(withIdentifier: "showMenu", sender: view)
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        let check = (sender is MKAnnotation ? true : false)
-//        if (segue.identifier == "showMenu" && check)
-//        {
-//            let avc:MenuVC = segue.destination as! MenuVC
-//            let view = sender as! MKAnnotationView
-//            avc.restaurant = view.annotation as! Restaurant
-//        }
-//        else {
-//            let avc:MenuVC = segue.destination as! MenuVC
-//            avc.restaurant = restaurants[currIndex]
-//        }
-//    }
+    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    //        let check = (sender is MKAnnotation ? true : false)
+    //        if (segue.identifier == "showMenu" && check)
+    //        {
+    //            let avc:MenuVC = segue.destination as! MenuVC
+    //            let view = sender as! MKAnnotationView
+    //            avc.restaurant = view.annotation as! Restaurant
+    //        }
+    //        else {
+    //            let avc:MenuVC = segue.destination as! MenuVC
+    //            avc.restaurant = restaurants[currIndex]
+    //        }
+    //    }
     
     // Good practice: create the reader lazily to avoid cpu overload during the
     // initialization and each time we need to scan a QRCode
@@ -252,15 +252,15 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
         return QRCodeReaderViewController(builder: builder)
     }()
     
-
+    
     @IBAction func scanAction(_ sender: Any) {
         // Retrieve the QRCode content
         // By using the delegate pattern
         //readerVC.delegate = self
-
+        
         // Presents the readerVC as modal form sheet
-//        readerVC.modalPresentationStyle = .formSheet
-//        present(readerVC, animated: true, completion: nil)
+        //        readerVC.modalPresentationStyle = .formSheet
+        //        present(readerVC, animated: true, completion: nil)
         
         let baseURLString = "https://www.shareatpay.com/party/5b346f48d585fb0e7d3ed3fc/6"
         guard
@@ -281,15 +281,18 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
                 for order in json["orders"] as! [[String : Any]] {
                     let id = order["_id"] as! String
                     let dishName = order["name"] as! String
+                    let price = order["price"] as! Int
                     if order["buyers"] == nil {
-                        orders.append(Order(name: dishName, buyers: nil, orderId: id))
+                        orders.append(Order(name: dishName, price: price, buyers: nil, orderId: id))
                     } else {
-                        orders.append(Order(name: dishName, buyers: order["buyers"] as! [[String:String]], orderId: id))
+                        orders.append(Order(name: dishName, price: price, buyers: order["buyers"] as! [[String:String]], orderId: id))
                     }
                 }
                 
                 let party_id = json["_id"] as! String
+                let totalPrice = json["orderTotal"] as! Int
                 
+                vc.totalPrice = totalPrice
                 vc.orders = orders
                 vc.partyId = party_id
                 self.present(vc, animated: true, completion: nil)
@@ -308,7 +311,7 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
             }
             
         }
-       
+        
     }
     
     
@@ -338,22 +341,27 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
                     for order in json["orders"] as! [[String : Any]] {
                         let id = order["_id"] as! String
                         let dishName = order["name"] as! String
+                        let price = order["price"] as! Int
                         if order["buyers"] == nil {
-                            orders.append(Order(name: dishName, buyers: nil, orderId: id))
+                            orders.append(Order(name: dishName, price: price, buyers: nil, orderId: id))
                         } else {
-                            orders.append(Order(name: dishName, buyers: order["buyers"] as! [[String:String]], orderId: id))
+                            orders.append(Order(name: dishName, price: price, buyers: order["buyers"] as! [[String:String]], orderId: id))
                         }
                     }
                     
                     let party_id = json["_id"] as! String
+                    print("fine")
+                    let totalPrice = json["orderTotal"] as! Int
+                    print(totalPrice)
                     
+                    vc.totalPrice = totalPrice
                     vc.orders = orders
                     vc.partyId = party_id
                     self.present(vc, animated: true, completion: nil)
                     
                     
                 } else if(response.response?.statusCode == 404){
-
+                    
                     let tableNotFoundAlert = UIAlertController(title: "Table Not Found", message: "This table has not been established at the restaurant", preferredStyle: UIAlertControllerStyle.alert)
                     
                     tableNotFoundAlert.addAction(UIAlertAction(title: NSLocalizedString("OK!", comment: "Default action"), style: .default, handler: { _ in
@@ -363,9 +371,9 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
                     self.present(tableNotFoundAlert, animated: true, completion: nil)
                     return
                 }
-            
+                
             }
-        
+            
         }
     }
     

@@ -13,15 +13,20 @@ import Alamofire
 
 class CheckViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    let orange = UIColor(red: 243/255, green: 165/255, blue: 69/255, alpha: 1.0)
     
     var orders: [Order]?
+    var myOrders: [Order]?
     var partyId: String?
     var buttonBar: UIView!
+    var totalPrice: Int?
     
-    var colors: [UIColor] = [.orange, .red, .purple, .magenta]
+    var colors: [UIColor]?
     var names: [[UILabel]]?
     
     //used to detect double tap
+   
+    @IBOutlet weak var totalPriceLabel: UILabel!
     var lastClick: TimeInterval = Date().timeIntervalSince1970
     var lastIndexPath: IndexPath?
     
@@ -38,6 +43,8 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        colors = [orange, .red, .purple, .magenta]
+        
         names = Array(repeating: Array(repeating: UILabel(), count: 0), count: orders!.count)
         
         orderList.delegate = self
@@ -51,9 +58,17 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
         orderList.bounces = false
         orderList.showsVerticalScrollIndicator = false
         
+        myOrders = [Order]()
+        createMyOrdersDataSource()
+        
+        let priceDecimal: Double = Double(totalPrice!)/100
+        let priceDisplay = "$" + String(priceDecimal)
+
+        totalPriceLabel.text = priceDisplay
+        
         buttonBar = UIView()
         buttonBar.translatesAutoresizingMaskIntoConstraints = false
-        buttonBar.backgroundColor = UIColor.orange
+        buttonBar.backgroundColor = orange
         view.addSubview(buttonBar)
         
         // Constrain the top of the button bar to the bottom of the segmented control
@@ -74,11 +89,27 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         groupOrIndividual.setTitleTextAttributes([
             NSAttributedStringKey.font :UIFont.systemFont(ofSize: 18.0),
-            NSAttributedStringKey.foregroundColor: UIColor.orange
+            NSAttributedStringKey.foregroundColor: orange
             ], for: .selected)
         
         groupOrIndividual.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: UIControlEvents.valueChanged)
         
+    }
+    
+    func createMyOrdersDataSource() {
+        for order in orders! {
+            guard let customers = order.buyers else {
+                return
+            }
+            for (index, element) in customers.enumerated() {
+                guard let firstName = element["firstName"], let lastName = element["lastName"], let userId = element["userId"] else {
+                    return
+                }
+                if(userId ==  UserDefaults.standard.string(forKey: "userId")) {
+                    myOrders!.append(order)
+                }
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -89,44 +120,99 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let _ = channel.bind(eventName: "splitting", callback: { (data: Any?) -> Void in
             if let data = data as? [String : AnyObject] {
-                guard let orderId = data["orderId"] as? String, let name = data["name"] as? String else {
+                guard let orderId = data["orderId"] as? String, let
+                    isAdd = data["add"] as? Bool, let
+                    userId = data["userId"] as? String else {
                     return
                 }
                 var row: Int = -1
                 for (index, element) in self.orders!.enumerated() {
                     if element.orderId == orderId {
-                        
                         row = index
                     }
                 }
-                self.addNameToCell(atIndex: row, addName: name, backgroundColor: .black)
-                
+                if(isAdd) {
+                    guard let firstName = data["firstName"] as? String, let lastName = data["lastName"] as? String, let colorIndex = data["colorIndex"] as? Int else {
+                            return
+                    }
+                    var acronym = ""
+                    acronym.append(firstName[firstName.startIndex])
+                    acronym.append(lastName[lastName.startIndex])
+                    self.addNameToCell(atIndex: row, addName: acronym, userId: userId, color: self.colors![colorIndex % self.colors!.count])
+                } else {
+                    self.removeNameFromCell(atIndex: row, userId: userId)
+                }
             }
         })
-        
         pusher.connect()
-
     }
     
-    func addNameToCell(atIndex index: Int, addName name: String, backgroundColor: UIColor = .clear) {
+    func removeNameFromCell(atIndex index: Int, userId: String) {
         let indexPath = IndexPath(row: index, section: 0)
         
-        if let cell = orderList.cellForRow(at: indexPath) {
-            let name = createSharedDishCustomer("EC", at: 0, parentView: cell.contentView, color: .orange)
-            name.alpha = 0
-            cell.contentView.addSubview(name)
-            if orders![index].buyers == nil || orders![index].buyers!.count == 0 {
+        if let cell = orderList.cellForRow(at: indexPath) as? CheckTableViewCell{
+            var indexToRemove = -1
+            for (i, element) in orders![index].buyers!.enumerated() {
+                guard let id = element["userId"] as? String else {
+                    return
+                }
+                if id == userId {
+                    indexToRemove = i
+                }
+            }
+            if (indexToRemove != -1) {
+                orders![index].buyers!.remove(at: indexToRemove)
                 UIView.animate(withDuration: 0.5, animations: {
-                    name.alpha = 1.0
-                })
-            } else {
-                UIView.animate(withDuration: 0.5, animations: {
-                    for name : UILabel in self.names![index] {
-                        name.center.x = name.center.x - 30
+                    self.names![index][indexToRemove].alpha = 0.0
+                    for (i, name) in self.names![index].enumerated() {
+                        if(i > indexToRemove) {
+                            name.center.x = name.center.x + 30
+                        }
                     }
-                    name.alpha = 1.0
                 })
-                
+                names![index].remove(at: indexToRemove)
+            }
+        }
+    }
+    
+    func addNameToCell(atIndex index: Int, addName name: String, userId: String, color: UIColor = .clear) {
+        let indexPath = IndexPath(row: index, section: 0)
+        
+        if let cell = orderList.cellForRow(at: indexPath) as? CheckTableViewCell{
+            var createEllipsis = false
+            if names![index].count > 0 {
+//                print(names![index][0].frame.minX)
+//                print(cell.sharedByView.frame.minX)
+                if names![index][names![index].count - 1].frame.minX - 30 < 0 {
+                    createEllipsis = true
+                }
+            }
+            
+            if !createEllipsis {
+                let newName = createSharedDishCustomer(name, at: 0, parentView: cell.sharedByView, color: color, isEllipsis: false)
+                newName.alpha = 0.0
+                cell.sharedByView.addSubview(newName)
+                if orders![index].buyers == nil || orders![index].buyers!.count == 0 {
+                    UIView.animate(withDuration: 0.5, animations: {
+                        newName.alpha = 1.0
+                    })
+                } else {
+                    UIView.animate(withDuration: 0.5, animations: {
+                        for name : UILabel in self.names![index] {
+                            name.center.x = name.center.x - 30
+                        }
+                        newName.alpha = 1.0
+                    })
+                }
+                orders![index].buyers!.insert(["userId": userId], at: 0)
+                names![index].insert(newName, at: 0)
+            } else {
+                let more = createSharedDishCustomer("+1", at: 0, parentView: names![index][names![index].count - 1], color: color, isEllipsis: true)
+                more.alpha = 0.0
+                cell.sharedByView.addSubview(more)
+                UIView.animate(withDuration: 0.5, animations: {
+                    more.alpha = 1.0
+                })
             }
         }
     }
@@ -155,50 +241,87 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.buttonBar.frame.origin.x = (self.groupOrIndividual.frame.width / CGFloat(self.groupOrIndividual.numberOfSegments)) * CGFloat(self.groupOrIndividual.selectedSegmentIndex)
         }
     }
-
+    
+    @IBAction func segmentedControlChanged(_ sender: UISegmentedControl) {
+        orderList.reloadData()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return orders!.count
+        switch(groupOrIndividual.selectedSegmentIndex){
+        case 0:
+            return orders!.count
+        case 1:
+            return myOrders!.count
+        default:
+            return orders!.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CheckTableViewCell2", for: indexPath) as! CheckTableViewCell
-        for view:UIView in cell.contentView.subviews {
-            view.removeFromSuperview()
-        }
         
-        cell.dishName = orders![indexPath.row].name
+//        for view:UIView in cell.contentView.subviews {
+//            view.removeFromSuperview()
+//        }
         cell.selectionStyle = .none
         
-        guard let customers = orders![indexPath.row].buyers else {
-            return cell
+        switch(groupOrIndividual.selectedSegmentIndex){
+        case 0:
+            cell.dishName = orders![indexPath.row].name
+            cell.price = orders![indexPath.row].price
+            
+            guard let customers = orders![indexPath.row].buyers else {
+                return cell
+            }
+            
+            for (index, element) in customers.enumerated() {
+                guard let firstName = element["firstName"], let lastName = element["lastName"] else {
+                    return cell
+                }
+                var acronym = ""
+            acronym.append(firstName[firstName.startIndex])
+                acronym.append(lastName[lastName.startIndex])
+                
+                let name = createSharedDishCustomer(acronym, at: index, parentView: cell.sharedByView, color: colors![index % colors!.count], isEllipsis: false)
+                cell.sharedByView.addSubview(name)
+                names![indexPath.row].append(name)
+            }
+            break
+        case 1:
+            cell.dishName = myOrders![indexPath.row].name
+            guard let customers = myOrders![indexPath.row].buyers else {
+                return cell
+            }
+            
+            for (index, element) in customers.enumerated() {
+                guard let firstName = element["firstName"], let lastName = element["lastName"],
+                    let userId = element["userId"] else {
+                    return cell
+                }
+                
+                var acronym = ""
+                acronym.append(firstName[firstName.startIndex])
+                acronym.append(lastName[lastName.startIndex])
+                
+                let name = createSharedDishCustomer(acronym, at: index, parentView: cell.sharedByView, color: colors![index % colors!.count], isEllipsis: false)
+                
+            }
+            
+        default:
+            break
+            
         }
-
-        for (index, element) in customers.enumerated() {
-            let name = createSharedDishCustomer("EC", at: index, parentView: cell.contentView, color: .orange)
-            cell.contentView.addSubview(name)
-            names![indexPath.row].append(name)
-        }
-        
         cell.layoutSubviews()
-
         return cell
     }
 
 
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         
         let now: TimeInterval = Date().timeIntervalSince1970
         if (now - lastClick < 0.3) && (lastIndexPath?.row == indexPath.row )
         {
-            var isBuyer: Bool = false
-            for buyer in orders![indexPath.row].buyers! {
-                if buyer["userId"] == UserDefaults.standard.string(forKey: "userId") {
-                    isBuyer = true
-                    print("yes")
-                }
-            }
             splitOrder(orders![indexPath.row].orderId)
         }
         lastClick = now
@@ -206,20 +329,24 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     
-    func createSharedDishCustomer(_ name: String, at position: Int, parentView parent: UIView, color color: UIColor) -> UILabel {
-        let name = UILabel(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
-        name.textAlignment = .center
-        name.textColor = .white
-        name.text = "EC"
-        name.center.x = parent.bounds.size.width - 25 - CGFloat(position) * 30
-        name.center.y = parent.center.y
+    func createSharedDishCustomer(_ name: String, at position: Int, parentView parent: UIView, color: UIColor, isEllipsis more: Bool) -> UILabel {
+        let nameLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
+        if !more {
+            nameLabel.textColor = .white
+            nameLabel.backgroundColor = color
+            nameLabel.text = name
+            nameLabel.center.x = parent.bounds.size.width - 25 - CGFloat(position) * 30
+            nameLabel.center.y = parent.center.y
+        } else {
+            nameLabel.textColor = .black
+            nameLabel.backgroundColor = .white
+            nameLabel.text = name
+            nameLabel.center.x = parent.frame.minX - 30
+            nameLabel.center.y = parent.center.y
+        }
         
-        name.layer.cornerRadius = name.frame.width/2
-        name.backgroundColor = color
-        name.layer.masksToBounds = true
-        name.autoresizingMask = [.flexibleLeftMargin, .flexibleBottomMargin, .flexibleTopMargin]
-        name.adjustsFontSizeToFitWidth = true
-        return name
+        nameLabel.setDisplayLabel()
+        return nameLabel
     }
 
     
@@ -252,3 +379,14 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 }
 
+
+extension UILabel {
+    func setDisplayLabel() {
+        self.textAlignment = .center
+        
+        self.layer.cornerRadius = self.frame.width/2
+        self.layer.masksToBounds = true
+        self.autoresizingMask = [.flexibleLeftMargin, .flexibleBottomMargin, .flexibleTopMargin]
+        self.adjustsFontSizeToFitWidth = true
+    }
+}

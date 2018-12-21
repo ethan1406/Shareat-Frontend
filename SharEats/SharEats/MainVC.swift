@@ -64,6 +64,8 @@ class MainVC: UIViewController {
             }
             UserDefaults.standard.set(user!.email, forKey: "email")
             UserDefaults.standard.set(user!.userId, forKey: "userId")
+            UserDefaults.standard.set(user!.firstName, forKey: "firstName")
+            UserDefaults.standard.set(user!.lastName, forKey: "lastName")
             
             let storyboard = UIStoryboard(name: "Search", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "Search") as UIViewController
