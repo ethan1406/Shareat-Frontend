@@ -41,6 +41,7 @@
 		A2B482DE2185BB7F0069579A /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B482DD2185BB7F0069579A /* Order.swift */; };
 		A2D02C632148CB7E009BEA95 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D02C622148CB7E009BEA95 /* ProfileVC.swift */; };
 		A2D02C652148E112009BEA95 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D02C642148E112009BEA95 /* User.swift */; };
+		A2F9DD0621D1115300F66FB7 /* Buyer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F9DD0521D1115300F66FB7 /* Buyer.swift */; };
 		A2F9F4AC218858F400C99B13 /* CheckTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F9F4AB218858F400C99B13 /* CheckTableViewCell.swift */; };
 		A2FF5D5721A1053F00CF871C /* PushNoAnimationSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FF5D5621A1053F00CF871C /* PushNoAnimationSegue.swift */; };
 		A3270CB3AC1B592B6437A08D /* Pods_SharEatsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1DA055B125F7D992F0B7C5B /* Pods_SharEatsUITests.framework */; };
@@ -112,6 +113,7 @@
 		A2B482DD2185BB7F0069579A /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		A2D02C622148CB7E009BEA95 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		A2D02C642148E112009BEA95 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		A2F9DD0521D1115300F66FB7 /* Buyer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buyer.swift; sourceTree = "<group>"; };
 		A2F9F4AB218858F400C99B13 /* CheckTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckTableViewCell.swift; sourceTree = "<group>"; };
 		A2FF5D5621A1053F00CF871C /* PushNoAnimationSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNoAnimationSegue.swift; sourceTree = "<group>"; };
 		C762A5ABDDF6B315B2D48DF2 /* Pods-SharEats-SharEatsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharEats-SharEatsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SharEats-SharEatsTests/Pods-SharEats-SharEatsTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 				02BCF990211169B80031ACC1 /* StripeAPIClient.swift */,
 				A2D02C642148E112009BEA95 /* User.swift */,
 				A2B482DD2185BB7F0069579A /* Order.swift */,
+				A2F9DD0521D1115300F66FB7 /* Buyer.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -545,6 +548,7 @@
 				A2D02C652148E112009BEA95 /* User.swift in Sources */,
 				024C9A002077FA8300227D13 /* AppDelegate.swift in Sources */,
 				02F2413D2089226F00743FFD /* MainVC.swift in Sources */,
+				A2F9DD0621D1115300F66FB7 /* Buyer.swift in Sources */,
 				02BA1C6220F1AD7300B8115E /* MenuItemPageVC.swift in Sources */,
 				A251A7FF213D1C3700AF1D52 /* RestaurantsVC.swift in Sources */,
 				02FD64C521101247003A0C2A /* PaymentVC.swift in Sources */,

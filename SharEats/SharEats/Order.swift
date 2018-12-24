@@ -14,10 +14,10 @@ class Order {
     
     var name: String
     var price: Int
-    var buyers: [[String:String]]?
+    var buyers: [Buyer]?
     var orderId: String
     
-    init(name: String, price: Int, buyers: [[String:String]]?, orderId: String) {
+    init(name: String, price: Int, buyers: [Buyer]?, orderId: String) {
         self.name = name
         self.price = price
         self.buyers = buyers

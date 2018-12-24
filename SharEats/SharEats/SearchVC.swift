@@ -71,21 +71,22 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
         //setting up map view
         
         locationManager = CLLocationManager()
-        locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         
         if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.startUpdatingLocation()
             switch(CLLocationManager.authorizationStatus()) {
             case .authorizedAlways, .authorizedWhenInUse:
-                let currCoordinate = self.locationManager.location?.coordinate
-                let currLocation = CLLocation(latitude: currCoordinate!.latitude, longitude: currCoordinate!.longitude)
-                centerMapOnLocation(location: currLocation)
-                
-                //collecting nearby restaurants
-                restaurants = getRestaurant(loc: currLocation)
-                
-                for i in restaurants {
-                    mapView.addAnnotation(i)
+                if let location = self.locationManager.location {
+                    let currCoordinate = location.coordinate
+                    let currLocation = CLLocation(latitude: currCoordinate.latitude, longitude: currCoordinate.longitude)
+                    centerMapOnLocation(location: currLocation)
+                    //collecting nearby restaurants
+                    restaurants = getAllRestaurants()
+                    for restaurant in restaurants {
+                        mapView.addAnnotation(restaurant)
+                    }
                 }
             default:
                 break;
@@ -200,6 +201,23 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
         return true
     }
     
+    func getAllRestaurants() -> [Restaurant] {
+        var data = [Restaurant]()
+        let url = "https://www.shareatpay.com/map/allRestaurants"
+        
+        let json:JSON = HelperFunctions.requestJson(url: url, method: "GET")
+        
+        for i in json.arrayValue {
+            let lat = HelperFunctions.radiansToDegress(radians: i["location"]["latitude"].double!)
+            let long = HelperFunctions.radiansToDegress(radians: i["location"]["longitude"].double!)
+            let coor:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: lat, longitude: long)
+            
+            let temp = Restaurant(coor: coor, name: i["name"].stringValue, id: i["_id"].stringValue)
+            data.append(temp)
+        }
+        
+        return data
+    }
     
     func getRestaurant(loc: CLLocation) -> [Restaurant] {
         var data = [Restaurant]()
@@ -285,7 +303,15 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
                     if order["buyers"] == nil {
                         orders.append(Order(name: dishName, price: price, buyers: nil, orderId: id))
                     } else {
-                        orders.append(Order(name: dishName, price: price, buyers: order["buyers"] as! [[String:String]], orderId: id))
+                        var buyers = [Buyer]()
+                        for buyer in order["buyers"] as! [[String : Any]] {
+                            let firstName = buyer["firstName"] as! String,
+                            lastName = buyer["lastName"] as! String,
+                            userId = buyer["userId"] as! String
+                            buyers.append(Buyer(firstName:
+                                firstName,lastName: lastName, userId: userId, nameLabel: nil))
+                        }
+                        orders.append(Order(name: dishName, price: price, buyers: buyers, orderId: id))
                     }
                 }
                 
@@ -345,7 +371,11 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
                         if order["buyers"] == nil {
                             orders.append(Order(name: dishName, price: price, buyers: nil, orderId: id))
                         } else {
-                            orders.append(Order(name: dishName, price: price, buyers: order["buyers"] as! [[String:String]], orderId: id))
+                            var buyers = [Buyer]()
+                            for buyer in order["buyers"] as! [[String : Any]] {
+                                buyers.append(Buyer(firstName: buyer["firstName"] as! String, lastName: buyer["lastName"] as! String, userId: buyer["orderId"] as! String, nameLabel: nil))
+                            }
+                            orders.append(Order(name: dishName, price: price, buyers: buyers, orderId: id))
                         }
                     }
                     

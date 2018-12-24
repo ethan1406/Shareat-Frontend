@@ -335,9 +335,6 @@
                                     <segment title="My Orders"/>
                                 </segments>
                                 <color key="tintColor" red="0.95294117647058818" green="0.6470588235294118" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <connections>
-                                    <action selector="segmentedControlChanged:" destination="Qxs-02-Fbn" eventType="valueChanged" id="ClK-bh-aDk"/>
-                                </connections>
                             </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vnX-2B-y2n">
                                 <rect key="frame" x="0.0" y="228" width="414" height="512.66666666666663"/>

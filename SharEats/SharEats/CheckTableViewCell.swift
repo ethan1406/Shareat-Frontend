@@ -78,6 +78,10 @@ class CheckTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        for subview in sharedByView.subviews {
+            subview.removeFromSuperview()
+        }
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
