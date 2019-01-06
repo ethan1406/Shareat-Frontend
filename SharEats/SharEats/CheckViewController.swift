@@ -20,11 +20,15 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
     var partyId: String?
     var buttonBar: UIView!
     var totalPrice: Int?
+    var restaurantName: String?
     
     var colors: [UIColor]?
     
     //used to detect double tap
    
+    @IBOutlet weak var totalLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var restaurantLabel: UILabel!
     @IBOutlet weak var totalPriceLabel: UILabel!
     var lastClick: TimeInterval = Date().timeIntervalSince1970
     var lastIndexPath: IndexPath?
@@ -55,13 +59,13 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
         orderList.bounces = false
         orderList.showsVerticalScrollIndicator = false
         
-        myOrders = [Order]()
-        createMyOrdersDataSource()
-        
         let priceDecimal: Double = Double(totalPrice!)/100
         let priceDisplay = "$" + String(priceDecimal)
 
         totalPriceLabel.text = priceDisplay
+        restaurantLabel.text = restaurantName
+        priceLabel.text = "Price"
+        totalLabel.text = "Group Total"
         
         buttonBar = UIView()
         buttonBar.translatesAutoresizingMaskIntoConstraints = false
@@ -91,20 +95,6 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         groupOrIndividual.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: UIControlEvents.valueChanged)
         
-    }
-    
-    func createMyOrdersDataSource() {
-        for order in orders! {
-            guard let customers = order.buyers else {
-                return
-            }
-            for (index, element) in customers.enumerated() {
-                let userId = element.userId
-                if(userId ==  UserDefaults.standard.string(forKey: "userId")) {
-                    myOrders!.append(order)
-                }
-            }
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -141,87 +131,137 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func removeNameFromCell(atIndex index: Int, userId: String) {
         let indexPath = IndexPath(row: index, section: 0)
-        
-        if let cell = orderList.cellForRow(at: indexPath) as? CheckTableViewCell{
-            var indexToRemove = -1
-            for (i, element) in orders![index].buyers!.enumerated() {
-                let id = element.userId
-                if id == userId {
-                    indexToRemove = i
-                }
+        var indexToRemove = -1
+        for (i, element) in orders![index].buyers!.enumerated() {
+            let id = element.userId
+            if id == userId {
+                indexToRemove = i
             }
-            
+        }
+        
 //            for buyer in self.orders![index].buyers! {
 //                buyer.nameLabel!.center.x = buyer.nameLabel!.center.x - 30
 //            }
 //            newName.alpha = 1.0
 //            
-            if (indexToRemove != -1) {
-                UIView.animate(withDuration: 0.5, animations: {
-                    self.orders![index].buyers![indexToRemove].nameLabel!.alpha = 0.0
-                    for (i, buyer) in self.orders![index].buyers!.enumerated() {
-                        if(i > indexToRemove) {
-                            buyer.nameLabel!.center.x = buyer.nameLabel!.center.x + 30
-                        }
+        if (indexToRemove != -1) {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.orders![index].buyers![indexToRemove].nameLabel!.alpha = 0.0
+                for (i, buyer) in self.orders![index].buyers!.enumerated() {
+                    if(i > indexToRemove) {
+                        buyer.nameLabel!.center.x = buyer.nameLabel!.center.x + 30
                     }
-                })
-                orders![index].buyers!.remove(at: indexToRemove)
+                }
+            })
+            orders![index].buyers!.remove(at: indexToRemove)
+        }
+        var rowToRemove = -1
+        for (i, order) in myOrders!.enumerated() {
+            if(order.orderId == orders![index].orderId){
+                rowToRemove = i
             }
+        }
+        
+        if(userId ==  UserDefaults.standard.string(forKey: "userId")) {
+            myOrders = myOrders!.filter{$0.orderId != orders![index].orderId}
+            if(groupOrIndividual.selectedSegmentIndex == 1){
+                orderList.deleteRows(at: [IndexPath(row: rowToRemove, section: 0)], with: .fade)
+            }
+        } else {
+            var nameInMyOrder = -1
+            for (i, element) in myOrders![rowToRemove].buyers!.enumerated() {
+                let id = element.userId
+                if id == userId {
+                    nameInMyOrder = i
+                }
+            }
+            UIView.animate(withDuration: 0.3, animations: {
+                self.myOrders![rowToRemove].buyers![nameInMyOrder].nameLabel!.alpha = 0.0
+                for (i, buyer) in self.orders![rowToRemove].buyers!.enumerated() {
+                    if(i > nameInMyOrder) {
+                        buyer.nameLabel!.center.x = buyer.nameLabel!.center.x + 30
+                    }
+                }
+            })
         }
     }
     
     func addNameToCell(atIndex index: Int, firstName: String, lastName: String, userId: String, color: UIColor = .clear) {
         let indexPath = IndexPath(row: index, section: 0)
-        
-        if let cell = orderList.cellForRow(at: indexPath) as? CheckTableViewCell{
-            var createEllipsis = false
-            if let buyers = orders![index].buyers {
-                if buyers.count > 0 {
-                    //                print(names![index][0].frame.minX)
-                    //                print(cell.sharedByView.frame.minX)
-                    if buyers[buyers.count - 1].nameLabel!.frame.minX - 30 < 0 {
-                        createEllipsis = true
+        var acronym = ""
+        acronym.append(firstName[firstName.startIndex])
+        acronym.append(lastName[lastName.startIndex])
+        if(groupOrIndividual.selectedSegmentIndex == 0) {
+            if let cell = orderList.cellForRow(at: indexPath) as? CheckTableViewCell{
+                var createEllipsis = false
+                if let buyers = orders![index].buyers {
+                    if buyers.count > 0 {
+                        //                print(names![index][0].frame.minX)
+                        //                print(cell.sharedByView.frame.minX)
+                        if buyers[buyers.count - 1].nameLabel!.frame.minX - 30 < 0 {
+                            createEllipsis = true
+                        }
                     }
-                }
-                var acronym = ""
-                acronym.append(firstName[firstName.startIndex])
-                acronym.append(lastName[lastName.startIndex])
-                
-                if !createEllipsis {
-                    let newName = createSharedDishCustomer(acronym, at: 0, parentView: cell.sharedByView, color: color, isEllipsis: false)
-                    newName.alpha = 0.0
-                    cell.sharedByView.addSubview(newName)
-                    var firstNameToAppear = false;
-                    if orders![index].buyers == nil || orders![index].buyers!.count == 0 {
-                        firstNameToAppear = true
-                    }
-                    orders![index].buyers!.insert(Buyer(firstName: firstName, lastName: lastName, userId: userId, nameLabel: newName), at: 0)
-                    if(firstNameToAppear) {
-                        UIView.animate(withDuration: 0.5, animations: {
-                            newName.alpha = 1.0
-                        }, completion: {_ in
-                            self.orderList.reloadData()
-                        })
+                    
+                    if !createEllipsis {
+                        let newName = createSharedDishCustomer(acronym, at: 0, parentView: cell.sharedByView, color: color, isEllipsis: false)
+                        newName.alpha = 0.0
+                        cell.sharedByView.addSubview(newName)
+                        var firstNameToAppear = false;
+                        if orders![index].buyers == nil || orders![index].buyers!.count == 0 {
+                            firstNameToAppear = true
+                        }
+                        orders![index].buyers!.insert(Buyer(firstName: firstName, lastName: lastName, userId: userId, nameLabel: newName), at: 0)
+                        if(userId ==  UserDefaults.standard.string(forKey: "userId")) {
+                            myOrders!.append(orders![index])
+                        }
+                        if(firstNameToAppear) {
+                            UIView.animate(withDuration: 0.3, animations: {
+                                newName.alpha = 1.0
+                            }, completion: {_ in
+                                self.orderList.reloadData()
+                            })
+                        } else {
+                            UIView.animate(withDuration: 0.3, animations: {
+                                for buyer in self.orders![index].buyers! {
+                                    buyer.nameLabel!.center.x = buyer.nameLabel!.center.x - 30
+                                }
+                                newName.alpha = 1.0
+                            }, completion: {_ in
+                                self.orderList.reloadData()
+                            })
+                        }
                     } else {
+                        let more = createSharedDishCustomer("+1", at: 0, parentView: buyers[buyers.count - 1].nameLabel!, color: color, isEllipsis: true)
+                        more.alpha = 0.0
+                        cell.sharedByView.addSubview(more)
                         UIView.animate(withDuration: 0.5, animations: {
-                            for buyer in self.orders![index].buyers! {
-                                buyer.nameLabel!.center.x = buyer.nameLabel!.center.x - 30
-                            }
-                            newName.alpha = 1.0
-                        }, completion: {_ in
-                            self.orderList.reloadData()
+                            more.alpha = 1.0
                         })
                     }
-                } else {
-                    let more = createSharedDishCustomer("+1", at: 0, parentView: buyers[buyers.count - 1].nameLabel!, color: color, isEllipsis: true)
-                    more.alpha = 0.0
-                    cell.sharedByView.addSubview(more)
-                    UIView.animate(withDuration: 0.5, animations: {
-                        more.alpha = 1.0
-                    })
                 }
             }
+        } else {
             
+            var rowToAdd = -1
+            for (i, order) in myOrders!.enumerated() {
+                if(order.orderId == orders![index].orderId){
+                    rowToAdd = i
+                }
+            }
+             if let cell = orderList.cellForRow(at: indexPath) as? CheckTableViewCell{
+                let newName = createSharedDishCustomer(acronym, at: 0, parentView: cell.sharedByView, color: color, isEllipsis: false)
+                orders![index].buyers!.insert(Buyer(firstName: firstName, lastName: lastName, userId: userId, nameLabel: newName), at: 0)
+                newName.alpha = 0.0
+                UIView.animate(withDuration: 0.3, animations: {
+                    for buyer in self.myOrders![rowToAdd].buyers! {
+                        buyer.nameLabel!.center.x = buyer.nameLabel!.center.x - 30
+                    }
+                    newName.alpha = 1.0
+                }, completion: {_ in
+                    self.orderList.reloadData()
+                })
+            }
         }
     }
     
@@ -245,15 +285,7 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
     */
 
     @objc func segmentedControlValueChanged(_ sender: UISegmentedControl) {
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.orderList.reloadData()
-        }
-
-        UIView.animate(withDuration: 0.3, delay: 0.0, options: [], animations:{
-            self.buttonBar.frame.origin.x = (self.groupOrIndividual.frame.width / CGFloat(self.groupOrIndividual.numberOfSegments)) * CGFloat(self.groupOrIndividual.selectedSegmentIndex)
-        })
-
+        orderList.reloadData()
     }
     
     
@@ -276,8 +308,16 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
 //        }
         cell.selectionStyle = .none
         
+        DispatchQueue.main.async { [weak self] in
+                        UIView.animate(withDuration: 0.3, delay: 0.0, options: [], animations:{
+            self!.buttonBar.frame.origin.x = (self!.groupOrIndividual.frame.width / CGFloat(self!.groupOrIndividual.numberOfSegments)) * CGFloat(self!.groupOrIndividual.selectedSegmentIndex)
+            })
+        }
+        
         switch(groupOrIndividual.selectedSegmentIndex){
         case 0:
+            priceLabel.text = "Price"
+            totalLabel.text = "Group Total"
             cell.dishName = orders![indexPath.row].name
             cell.price = orders![indexPath.row].price
             
@@ -299,23 +339,25 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
             break
         case 1:
+            priceLabel.text = "Price for You"
+            totalLabel.text = "Your Total"
             cell.dishName = myOrders![indexPath.row].name
+            
             guard let customers = myOrders![indexPath.row].buyers else {
                 return cell
             }
-
             for (index, element) in customers.enumerated() {
                 var firstName = element.firstName
                 var lastName = element.lastName
                 var orderId = element.userId
-
                 var acronym = ""
+                
                 acronym.append(firstName[firstName.startIndex])
                 acronym.append(lastName[lastName.startIndex])
-
+                
                 let name = createSharedDishCustomer(acronym, at: index, parentView: cell.sharedByView, color: colors![index % colors!.count], isEllipsis: false)
                 cell.sharedByView.addSubview(name)
-
+                customers[index].nameLabel = name
             }
         default:
             break
@@ -331,7 +373,12 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
         let now: TimeInterval = Date().timeIntervalSince1970
         if (now - lastClick < 0.3) && (lastIndexPath?.row == indexPath.row )
         {
-            splitOrder(orders![indexPath.row].orderId)
+            if(groupOrIndividual.selectedSegmentIndex == 0) {
+                splitOrder(orders![indexPath.row].orderId)
+            }
+            else {
+                splitOrder(myOrders![indexPath.row].orderId)
+            }
         }
         lastClick = now
         lastIndexPath = indexPath
@@ -379,8 +426,6 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
                 
             } else if(response.response?.statusCode == 404){
-                
-                
                 return
             }
             

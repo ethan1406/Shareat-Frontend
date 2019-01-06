@@ -67,16 +67,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		024C99FC2077FA8300227D13 /* SharEats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SharEats.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		024C99FC2077FA8300227D13 /* Shareat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shareat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		024C99FF2077FA8300227D13 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		024C9A042077FA8300227D13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		024C9A062077FA8300227D13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		024C9A092077FA8300227D13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		024C9A0B2077FA8300227D13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		024C9A102077FA8300227D13 /* SharEatsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SharEatsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		024C9A102077FA8300227D13 /* ShareatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShareatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		024C9A142077FA8300227D13 /* SharEatsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharEatsTests.swift; sourceTree = "<group>"; };
 		024C9A162077FA8300227D13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		024C9A1B2077FA8400227D13 /* SharEatsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SharEatsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		024C9A1B2077FA8400227D13 /* ShareatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShareatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		024C9A1F2077FA8400227D13 /* SharEatsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharEatsUITests.swift; sourceTree = "<group>"; };
 		024C9A212077FA8400227D13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		02AD0E2C20D5CA3700FC80F1 /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
@@ -170,9 +170,9 @@
 		024C99FD2077FA8300227D13 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				024C99FC2077FA8300227D13 /* SharEats.app */,
-				024C9A102077FA8300227D13 /* SharEatsTests.xctest */,
-				024C9A1B2077FA8400227D13 /* SharEatsUITests.xctest */,
+				024C99FC2077FA8300227D13 /* Shareat.app */,
+				024C9A102077FA8300227D13 /* ShareatTests.xctest */,
+				024C9A1B2077FA8400227D13 /* ShareatUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -300,9 +300,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		024C99FB2077FA8300227D13 /* SharEats */ = {
+		024C99FB2077FA8300227D13 /* Shareat */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 024C9A242077FA8400227D13 /* Build configuration list for PBXNativeTarget "SharEats" */;
+			buildConfigurationList = 024C9A242077FA8400227D13 /* Build configuration list for PBXNativeTarget "Shareat" */;
 			buildPhases = (
 				36BD7ECC45948E9D086388B9 /* [CP] Check Pods Manifest.lock */,
 				024C99F82077FA8300227D13 /* Sources */,
@@ -314,14 +314,14 @@
 			);
 			dependencies = (
 			);
-			name = SharEats;
+			name = Shareat;
 			productName = SharEats;
-			productReference = 024C99FC2077FA8300227D13 /* SharEats.app */;
+			productReference = 024C99FC2077FA8300227D13 /* Shareat.app */;
 			productType = "com.apple.product-type.application";
 		};
-		024C9A0F2077FA8300227D13 /* SharEatsTests */ = {
+		024C9A0F2077FA8300227D13 /* ShareatTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 024C9A272077FA8400227D13 /* Build configuration list for PBXNativeTarget "SharEatsTests" */;
+			buildConfigurationList = 024C9A272077FA8400227D13 /* Build configuration list for PBXNativeTarget "ShareatTests" */;
 			buildPhases = (
 				4170C97521E8A6425EDA2F70 /* [CP] Check Pods Manifest.lock */,
 				024C9A0C2077FA8300227D13 /* Sources */,
@@ -333,14 +333,14 @@
 			dependencies = (
 				024C9A122077FA8300227D13 /* PBXTargetDependency */,
 			);
-			name = SharEatsTests;
+			name = ShareatTests;
 			productName = SharEatsTests;
-			productReference = 024C9A102077FA8300227D13 /* SharEatsTests.xctest */;
+			productReference = 024C9A102077FA8300227D13 /* ShareatTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		024C9A1A2077FA8400227D13 /* SharEatsUITests */ = {
+		024C9A1A2077FA8400227D13 /* ShareatUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 024C9A2A2077FA8400227D13 /* Build configuration list for PBXNativeTarget "SharEatsUITests" */;
+			buildConfigurationList = 024C9A2A2077FA8400227D13 /* Build configuration list for PBXNativeTarget "ShareatUITests" */;
 			buildPhases = (
 				6AAD503161A1CC1F3AE15E75 /* [CP] Check Pods Manifest.lock */,
 				024C9A172077FA8400227D13 /* Sources */,
@@ -352,9 +352,9 @@
 			dependencies = (
 				024C9A1D2077FA8400227D13 /* PBXTargetDependency */,
 			);
-			name = SharEatsUITests;
+			name = ShareatUITests;
 			productName = SharEatsUITests;
-			productReference = 024C9A1B2077FA8400227D13 /* SharEatsUITests.xctest */;
+			productReference = 024C9A1B2077FA8400227D13 /* ShareatUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -383,7 +383,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 024C99F72077FA8300227D13 /* Build configuration list for PBXProject "SharEats" */;
+			buildConfigurationList = 024C99F72077FA8300227D13 /* Build configuration list for PBXProject "Shareat" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -396,9 +396,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				024C99FB2077FA8300227D13 /* SharEats */,
-				024C9A0F2077FA8300227D13 /* SharEatsTests */,
-				024C9A1A2077FA8400227D13 /* SharEatsUITests */,
+				024C99FB2077FA8300227D13 /* Shareat */,
+				024C9A0F2077FA8300227D13 /* ShareatTests */,
+				024C9A1A2077FA8400227D13 /* ShareatUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -584,12 +584,12 @@
 /* Begin PBXTargetDependency section */
 		024C9A122077FA8300227D13 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 024C99FB2077FA8300227D13 /* SharEats */;
+			target = 024C99FB2077FA8300227D13 /* Shareat */;
 			targetProxy = 024C9A112077FA8300227D13 /* PBXContainerItemProxy */;
 		};
 		024C9A1D2077FA8400227D13 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 024C99FB2077FA8300227D13 /* SharEats */;
+			target = 024C99FB2077FA8300227D13 /* Shareat */;
 			targetProxy = 024C9A1C2077FA8400227D13 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -770,7 +770,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SharEats.app/SharEats";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Shareat.app/Shareat";
 			};
 			name = Debug;
 		};
@@ -787,7 +787,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SharEats.app/SharEats";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Shareat.app/Shareat";
 			};
 			name = Release;
 		};
@@ -826,7 +826,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		024C99F72077FA8300227D13 /* Build configuration list for PBXProject "SharEats" */ = {
+		024C99F72077FA8300227D13 /* Build configuration list for PBXProject "Shareat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				024C9A222077FA8400227D13 /* Debug */,
@@ -835,7 +835,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		024C9A242077FA8400227D13 /* Build configuration list for PBXNativeTarget "SharEats" */ = {
+		024C9A242077FA8400227D13 /* Build configuration list for PBXNativeTarget "Shareat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				024C9A252077FA8400227D13 /* Debug */,
@@ -844,7 +844,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		024C9A272077FA8400227D13 /* Build configuration list for PBXNativeTarget "SharEatsTests" */ = {
+		024C9A272077FA8400227D13 /* Build configuration list for PBXNativeTarget "ShareatTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				024C9A282077FA8400227D13 /* Debug */,
@@ -853,7 +853,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		024C9A2A2077FA8400227D13 /* Build configuration list for PBXNativeTarget "SharEatsUITests" */ = {
+		024C9A2A2077FA8400227D13 /* Build configuration list for PBXNativeTarget "ShareatUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				024C9A2B2077FA8400227D13 /* Debug */,

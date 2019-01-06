@@ -29,7 +29,7 @@
         <!--Search-->
         <scene sceneID="EvL-pr-JtO">
             <objects>
-                <viewController storyboardIdentifier="Search" id="aH5-7A-Xm8" userLabel="Search" customClass="SearchVC" customModule="SharEats" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Search" id="aH5-7A-Xm8" userLabel="Search" customClass="SearchVC" customModule="Shareat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NzN-ZK-OQG">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -62,7 +62,7 @@
                                     <segue destination="BMG-AH-vPu" kind="presentation" id="vW5-7b-HDs"/>
                                 </connections>
                             </button>
-                            <searchBar contentMode="redraw" text="" placeholder="What are you looking for?" translatesAutoresizingMaskIntoConstraints="NO" id="0oo-44-4yM">
+                            <searchBar contentMode="redraw" text="" placeholder="Look for restaurants " translatesAutoresizingMaskIntoConstraints="NO" id="0oo-44-4yM">
                                 <rect key="frame" x="12" y="178" width="390" height="45"/>
                                 <rect key="contentStretch" x="0.0" y="0.0" width="0.94999999999999996" height="1"/>
                                 <constraints>
@@ -105,7 +105,7 @@
         <!--Root View Controller-->
         <scene sceneID="dQ1-EJ-tSG">
             <objects>
-                <tableViewController id="NYS-74-1iw" customClass="SlideTableViewController" customModule="SharEats" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="NYS-74-1iw" customClass="SlideTableViewController" customModule="Shareat" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="foQ-Jh-a9K">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -293,7 +293,7 @@
         <!--Check View Controller-->
         <scene sceneID="Otm-ho-kWg">
             <objects>
-                <viewController storyboardIdentifier="Check" id="Qxs-02-Fbn" customClass="CheckViewController" customModule="SharEats" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Check" id="Qxs-02-Fbn" customClass="CheckViewController" customModule="Shareat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="duB-8l-cid">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -322,8 +322,8 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Qin West" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Xk-u5-mhJ">
-                                <rect key="frame" x="10" y="85" width="94.666666666666671" height="29"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Qin East" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Xk-u5-mhJ">
+                                <rect key="frame" x="10" y="85" width="86.666666666666671" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -335,12 +335,15 @@
                                     <segment title="My Orders"/>
                                 </segments>
                                 <color key="tintColor" red="0.95294117647058818" green="0.6470588235294118" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <connections>
+                                    <action selector="segmentedControlValueChanged:" destination="Qxs-02-Fbn" eventType="valueChanged" id="1GD-2x-IPH"/>
+                                </connections>
                             </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vnX-2B-y2n">
                                 <rect key="frame" x="0.0" y="228" width="414" height="512.66666666666663"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CheckTableViewCell" id="vFI-sx-dfp" customClass="CheckTableViewCell" customModule="SharEats" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CheckTableViewCell" id="vFI-sx-dfp" customClass="CheckTableViewCell" customModule="Shareat" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vFI-sx-dfp" id="jfZ-oz-q3S">
@@ -437,6 +440,9 @@
                     <connections>
                         <outlet property="groupOrIndividual" destination="BrE-iD-hyB" id="3vK-70-v2F"/>
                         <outlet property="orderList" destination="vnX-2B-y2n" id="VwQ-nB-3B7"/>
+                        <outlet property="priceLabel" destination="vhn-eQ-gGz" id="UL8-F9-17u"/>
+                        <outlet property="restaurantLabel" destination="2Xk-u5-mhJ" id="Jjn-Gl-Kvd"/>
+                        <outlet property="totalLabel" destination="O9Q-zU-h3g" id="vaf-Ir-LWZ"/>
                         <outlet property="totalPriceLabel" destination="vcc-7o-LGZ" id="GdH-0N-mYC"/>
                     </connections>
                 </viewController>

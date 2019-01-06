@@ -295,6 +295,7 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
                 let storyboard = UIStoryboard(name: "Search", bundle: nil)
                 let vc = storyboard.instantiateViewController(withIdentifier: "Check") as! CheckViewController
                 var orders = [Order]()
+                var myOrders = [Order]()
                 
                 for order in json["orders"] as! [[String : Any]] {
                     let id = order["_id"] as! String
@@ -304,22 +305,32 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
                         orders.append(Order(name: dishName, price: price, buyers: nil, orderId: id))
                     } else {
                         var buyers = [Buyer]()
+                        var isMyOrder = false
                         for buyer in order["buyers"] as! [[String : Any]] {
                             let firstName = buyer["firstName"] as! String,
                             lastName = buyer["lastName"] as! String,
                             userId = buyer["userId"] as! String
+                            if(userId ==  UserDefaults.standard.string(forKey: "userId")) {
+                                isMyOrder = true
+                            }
                             buyers.append(Buyer(firstName:
                                 firstName,lastName: lastName, userId: userId, nameLabel: nil))
                         }
                         orders.append(Order(name: dishName, price: price, buyers: buyers, orderId: id))
+                        if(isMyOrder) {
+                            myOrders.append(Order(name: dishName, price: price, buyers: buyers, orderId: id))
+                        }
                     }
                 }
                 
                 let party_id = json["_id"] as! String
                 let totalPrice = json["orderTotal"] as! Int
+                let restaurantName = json["restaurantName"] as! String
                 
                 vc.totalPrice = totalPrice
                 vc.orders = orders
+                vc.restaurantName = restaurantName
+                vc.myOrders = myOrders
                 vc.partyId = party_id
                 self.present(vc, animated: true, completion: nil)
                 
