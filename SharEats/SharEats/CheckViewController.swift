@@ -46,7 +46,8 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        colors = [orange, .red, .purple, .magenta]
+        colors = [orange]
+        //[orange, .red, .purple, .magenta]
         
         orderList.delegate = self
         orderList.dataSource = self
@@ -59,10 +60,7 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
         orderList.bounces = false
         orderList.showsVerticalScrollIndicator = false
         
-        let priceDecimal: Double = Double(totalPrice!)/100
-        let priceDisplay = "$" + String(priceDecimal)
-
-        totalPriceLabel.text = priceDisplay
+        totalPriceLabel.text = priceToDisplay(price: totalPrice!)
         restaurantLabel.text = restaurantName
         priceLabel.text = "Price"
         totalLabel.text = "Group Total"
@@ -161,15 +159,10 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
                 rowToRemove = i
             }
         }
-        
-        if(userId ==  UserDefaults.standard.string(forKey: "userId")) {
-            myOrders = myOrders!.filter{$0.orderId != orders![index].orderId}
-            if(groupOrIndividual.selectedSegmentIndex == 1){
-                orderList.deleteRows(at: [IndexPath(row: rowToRemove, section: 0)], with: .fade)
-            }
-        } else {
+        if(rowToRemove != -1){
             var nameInMyOrder = -1
             for (i, element) in myOrders![rowToRemove].buyers!.enumerated() {
+                print(userId)
                 let id = element.userId
                 if id == userId {
                     nameInMyOrder = i
@@ -183,6 +176,20 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
                     }
                 }
             })
+        }
+        
+        if(userId ==  UserDefaults.standard.string(forKey: "userId")) {
+            myOrders = myOrders!.filter{$0.orderId != orders![index].orderId}
+        }
+        
+        
+        if(groupOrIndividual.selectedSegmentIndex == 1){
+            if(userId ==  UserDefaults.standard.string(forKey: "userId")) {
+                if(groupOrIndividual.selectedSegmentIndex == 1){
+                    orderList.deleteRows(at: [IndexPath(row: rowToRemove, section: 0)], with: .fade)
+                }
+            }
+            recalculatePrice()
         }
     }
     
@@ -212,9 +219,7 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
                             firstNameToAppear = true
                         }
                         orders![index].buyers!.insert(Buyer(firstName: firstName, lastName: lastName, userId: userId, nameLabel: newName), at: 0)
-                        if(userId ==  UserDefaults.standard.string(forKey: "userId")) {
-                            myOrders!.append(orders![index])
-                        }
+                        
                         if(firstNameToAppear) {
                             UIView.animate(withDuration: 0.3, animations: {
                                 newName.alpha = 1.0
@@ -230,6 +235,20 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
                             }, completion: {_ in
                                 self.orderList.reloadData()
                             })
+                        }
+                        
+                        if(userId ==  UserDefaults.standard.string(forKey: "userId")) {
+                            myOrders!.append(orders![index])
+                        } else {
+                            var rowToAdd = -1
+                            for (i, order) in myOrders!.enumerated() {
+                                if(order.orderId == orders![index].orderId){
+                                    rowToAdd = i
+                                }
+                            }
+                            if(rowToAdd != -1){
+                                myOrders![rowToAdd].buyers!.insert(Buyer(firstName: firstName, lastName: lastName, userId: userId, nameLabel: newName), at: 0)
+                            }
                         }
                     } else {
                         let more = createSharedDishCustomer("+1", at: 0, parentView: buyers[buyers.count - 1].nameLabel!, color: color, isEllipsis: true)
@@ -249,18 +268,22 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
                     rowToAdd = i
                 }
             }
-             if let cell = orderList.cellForRow(at: indexPath) as? CheckTableViewCell{
-                let newName = createSharedDishCustomer(acronym, at: 0, parentView: cell.sharedByView, color: color, isEllipsis: false)
-                orders![index].buyers!.insert(Buyer(firstName: firstName, lastName: lastName, userId: userId, nameLabel: newName), at: 0)
-                newName.alpha = 0.0
-                UIView.animate(withDuration: 0.3, animations: {
-                    for buyer in self.myOrders![rowToAdd].buyers! {
-                        buyer.nameLabel!.center.x = buyer.nameLabel!.center.x - 30
-                    }
-                    newName.alpha = 1.0
-                }, completion: {_ in
-                    self.orderList.reloadData()
-                })
+            if(rowToAdd != 1) {
+                if let cell = orderList.cellForRow(at: indexPath) as? CheckTableViewCell{
+                    let newName = createSharedDishCustomer(acronym, at: 0, parentView: cell.sharedByView, color: color, isEllipsis: false)
+                    orders![index].buyers!.insert(Buyer(firstName: firstName, lastName: lastName, userId: userId, nameLabel: newName), at: 0)
+                    myOrders![rowToAdd].buyers!.insert(Buyer(firstName: firstName, lastName: lastName, userId: userId, nameLabel: newName), at: 0)
+                    newName.alpha = 0.0
+                    UIView.animate(withDuration: 0.3, animations: {
+                        for buyer in self.myOrders![rowToAdd].buyers! {
+                            buyer.nameLabel!.center.x = buyer.nameLabel!.center.x - 30
+                        }
+                        newName.alpha = 1.0
+                    }, completion: {_ in
+                        self.orderList.reloadData()
+                    })
+                }
+                recalculatePrice()
             }
         }
     }
@@ -286,6 +309,9 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     @objc func segmentedControlValueChanged(_ sender: UISegmentedControl) {
         orderList.reloadData()
+        if(groupOrIndividual.selectedSegmentIndex == 1) {
+            recalculatePrice()
+        }
     }
     
     
@@ -318,6 +344,7 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
         case 0:
             priceLabel.text = "Price"
             totalLabel.text = "Group Total"
+            totalPriceLabel.text = priceToDisplay(price: totalPrice!)
             cell.dishName = orders![indexPath.row].name
             cell.price = orders![indexPath.row].price
             
@@ -342,6 +369,7 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
             priceLabel.text = "Price for You"
             totalLabel.text = "Your Total"
             cell.dishName = myOrders![indexPath.row].name
+            cell.price = myOrders![indexPath.row].price/(myOrders![indexPath.row].buyers!.count)
             
             guard let customers = myOrders![indexPath.row].buyers else {
                 return cell
@@ -405,6 +433,16 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
         return nameLabel
     }
 
+    func recalculatePrice() -> Void {
+        var individualPrice = myOrders!.reduce(0, { $0 + $1.price/$1.buyers!.count})
+        
+        totalPriceLabel.text = myOrders!.count != 0 ? priceToDisplay(price: individualPrice) : "$0.0"
+    }
+    
+    func priceToDisplay(price: Int) -> String {
+        let priceDecimal: Double = Double(price)/100
+        return "$" + String(priceDecimal)
+    }
     
     func splitOrder(_ orderId: String) {
         let baseURLString = "https://www.shareatpay.com/order/split"
