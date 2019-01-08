@@ -137,7 +137,7 @@
         <!--MainVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="MainVC" customModule="SharEats" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MainVC" customModule="Shareat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -151,7 +151,7 @@
                                     <color key="titleColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
-                                    <segue destination="8ND-oS-cCR" kind="show" customClass="PushNoAnimationSegue" customModule="SharEats" customModuleProvider="target" animates="NO" id="cEq-B4-CYL"/>
+                                    <segue destination="8ND-oS-cCR" kind="show" customClass="PushNoAnimationSegue" customModule="Shareat" customModuleProvider="target" animates="NO" id="cEq-B4-CYL"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tVi-Jx-djA" userLabel="LoginView">
@@ -287,7 +287,7 @@
         <!--Sign UpVC-->
         <scene sceneID="mSu-Ab-xKB">
             <objects>
-                <viewController id="8ND-oS-cCR" customClass="SignUpVC" customModule="SharEats" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="8ND-oS-cCR" customClass="SignUpVC" customModule="Shareat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="syf-H5-41i">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -370,7 +370,7 @@
                                             <color key="titleColor" red="0.95294117649999999" green="0.64705882349999999" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </state>
                                         <connections>
-                                            <segue destination="BYZ-38-t0r" kind="show" customClass="PushNoAnimationSegue" customModule="SharEats" customModuleProvider="target" animates="NO" id="I3t-4s-j2x"/>
+                                            <segue destination="BYZ-38-t0r" kind="show" customClass="PushNoAnimationSegue" customModule="Shareat" customModuleProvider="target" animates="NO" id="I3t-4s-j2x"/>
                                         </connections>
                                     </button>
                                 </subviews>

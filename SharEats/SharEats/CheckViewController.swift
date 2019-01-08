@@ -141,10 +141,20 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
 //                buyer.nameLabel!.center.x = buyer.nameLabel!.center.x - 30
 //            }
 //            newName.alpha = 1.0
-//            
+//
+        var rowToRemove = -1
+        for (i, order) in myOrders!.enumerated() {
+            if(order.orderId == orders![index].orderId){
+                rowToRemove = i
+            }
+        }
+        
         if (indexToRemove != -1) {
             UIView.animate(withDuration: 0.3, animations: {
-                self.orders![index].buyers![indexToRemove].nameLabel!.alpha = 0.0
+                if let label = self.orders![index].buyers![indexToRemove].nameLabel {
+                    label.alpha = 0.0
+                }
+                
                 for (i, buyer) in self.orders![index].buyers!.enumerated() {
                     if(i > indexToRemove) {
                         buyer.nameLabel!.center.x = buyer.nameLabel!.center.x + 30
@@ -153,29 +163,26 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
             })
             orders![index].buyers!.remove(at: indexToRemove)
         }
-        var rowToRemove = -1
-        for (i, order) in myOrders!.enumerated() {
-            if(order.orderId == orders![index].orderId){
-                rowToRemove = i
-            }
-        }
+       
         if(rowToRemove != -1){
             var nameInMyOrder = -1
             for (i, element) in myOrders![rowToRemove].buyers!.enumerated() {
-                print(userId)
                 let id = element.userId
                 if id == userId {
                     nameInMyOrder = i
                 }
             }
-            UIView.animate(withDuration: 0.3, animations: {
-                self.myOrders![rowToRemove].buyers![nameInMyOrder].nameLabel!.alpha = 0.0
-                for (i, buyer) in self.orders![rowToRemove].buyers!.enumerated() {
-                    if(i > nameInMyOrder) {
-                        buyer.nameLabel!.center.x = buyer.nameLabel!.center.x + 30
+            if(nameInMyOrder != -1) {
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.myOrders![rowToRemove].buyers![nameInMyOrder].nameLabel!.alpha = 0.0
+                    for (i, buyer) in self.myOrders![rowToRemove].buyers!.enumerated() {
+                        if(i > nameInMyOrder) {
+                            buyer.nameLabel!.center.x = buyer.nameLabel!.center.x + 30
+                        }
                     }
-                }
-            })
+                })
+                myOrders![rowToRemove].buyers!.remove(at: nameInMyOrder)
+            }
         }
         
         if(userId ==  UserDefaults.standard.string(forKey: "userId")) {
@@ -218,8 +225,6 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
                         if orders![index].buyers == nil || orders![index].buyers!.count == 0 {
                             firstNameToAppear = true
                         }
-                        orders![index].buyers!.insert(Buyer(firstName: firstName, lastName: lastName, userId: userId, nameLabel: newName), at: 0)
-                        
                         if(firstNameToAppear) {
                             UIView.animate(withDuration: 0.3, animations: {
                                 newName.alpha = 1.0
@@ -236,19 +241,10 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
                                 self.orderList.reloadData()
                             })
                         }
+                        orders![index].buyers!.insert(Buyer(firstName: firstName, lastName: lastName, userId: userId, nameLabel: newName), at: 0)
                         
                         if(userId ==  UserDefaults.standard.string(forKey: "userId")) {
                             myOrders!.append(orders![index])
-                        } else {
-                            var rowToAdd = -1
-                            for (i, order) in myOrders!.enumerated() {
-                                if(order.orderId == orders![index].orderId){
-                                    rowToAdd = i
-                                }
-                            }
-                            if(rowToAdd != -1){
-                                myOrders![rowToAdd].buyers!.insert(Buyer(firstName: firstName, lastName: lastName, userId: userId, nameLabel: newName), at: 0)
-                            }
                         }
                     } else {
                         let more = createSharedDishCustomer("+1", at: 0, parentView: buyers[buyers.count - 1].nameLabel!, color: color, isEllipsis: true)
@@ -268,14 +264,16 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
                     rowToAdd = i
                 }
             }
-            if(rowToAdd != 1) {
-                if let cell = orderList.cellForRow(at: indexPath) as? CheckTableViewCell{
-                    let newName = createSharedDishCustomer(acronym, at: 0, parentView: cell.sharedByView, color: color, isEllipsis: false)
-                    orders![index].buyers!.insert(Buyer(firstName: firstName, lastName: lastName, userId: userId, nameLabel: newName), at: 0)
+            if let cell = orderList.cellForRow(at: indexPath) as? CheckTableViewCell{
+                let newName = createSharedDishCustomer(acronym, at: 0, parentView: cell.sharedByView, color: color, isEllipsis: false)
+                
+                if(rowToAdd != 1) {
                     myOrders![rowToAdd].buyers!.insert(Buyer(firstName: firstName, lastName: lastName, userId: userId, nameLabel: newName), at: 0)
                     newName.alpha = 0.0
+                    
                     UIView.animate(withDuration: 0.3, animations: {
                         for buyer in self.myOrders![rowToAdd].buyers! {
+                            print(buyer.firstName)
                             buyer.nameLabel!.center.x = buyer.nameLabel!.center.x - 30
                         }
                         newName.alpha = 1.0
@@ -283,8 +281,10 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
                         self.orderList.reloadData()
                     })
                 }
-                recalculatePrice()
             }
+            orders![index].buyers!.insert(Buyer(firstName: firstName, lastName: lastName, userId: userId, nameLabel: nil), at: 0)
+            recalculatePrice()
+           
         }
     }
     
@@ -313,6 +313,22 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
             recalculatePrice()
         }
     }
+    
+    
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+        if(segue.identifier == "ToConfrimationVC") {
+            let vc:ConfirmationViewController = segue.destination as! ConfirmationViewController
+            vc.myOrders = self.myOrders!
+            print(self.totalPrice!)
+            vc.totalPrice = self.totalPrice!
+            vc.restaurantName = self.restaurantName!
+        }
+     }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -434,7 +450,7 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     func recalculatePrice() -> Void {
-        var individualPrice = myOrders!.reduce(0, { $0 + $1.price/$1.buyers!.count})
+        let individualPrice = myOrders!.reduce(0, { $0 + $1.price/$1.buyers!.count})
         
         totalPriceLabel.text = myOrders!.count != 0 ? priceToDisplay(price: individualPrice) : "$0.0"
     }
