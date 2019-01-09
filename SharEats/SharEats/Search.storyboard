@@ -322,7 +322,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="xSu-Pt-Fvi" kind="presentation" identifier="ToConfrimationVC" id="g96-ZR-GIG"/>
+                                    <segue destination="xSu-Pt-Fvi" kind="presentation" identifier="ToConfrimationVC" id="L0H-On-Bky"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Qin East" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Xk-u5-mhJ">
@@ -457,7 +457,7 @@
         <!--Confirmation View Controller-->
         <scene sceneID="j4i-8i-YRQ">
             <objects>
-                <viewController id="xSu-Pt-Fvi" customClass="ConfirmationViewController" customModule="Shareat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ConfirmationViewController" id="xSu-Pt-Fvi" customClass="ConfirmationViewController" customModule="Shareat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gra-oD-mWS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -471,9 +471,6 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vRm-Ab-uxd">
                                 <rect key="frame" x="20" y="54" width="37" height="37"/>
                                 <state key="normal" image="Back"/>
-                                <connections>
-                                    <action selector="backAction:" destination="xSu-Pt-Fvi" eventType="touchUpInside" id="Kog-CH-geR"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s4Y-lk-8wp">
                                 <rect key="frame" x="0.0" y="832" width="414" height="30"/>

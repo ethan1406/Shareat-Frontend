@@ -324,12 +324,23 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
         if(segue.identifier == "ToConfrimationVC") {
             let vc:ConfirmationViewController = segue.destination as! ConfirmationViewController
             vc.myOrders = self.myOrders!
-            print(self.totalPrice!)
             vc.totalPrice = self.totalPrice!
             vc.restaurantName = self.restaurantName!
+            print(self.totalPrice!)
+            print(self.restaurantName!)
         }
      }
+//    @IBAction func checkOut(_ sender: UIButton) {
+//        let storyboard = UIStoryboard(name: "Search", bundle: nil)
+//        let vc = storyboard.instantiateViewController(withIdentifier: "ConfirmationViewController") as! ConfirmationViewController
+//        vc.myOrders = self.myOrders!
+//        vc.totalPrice = self.totalPrice!
+//        vc.restaurantName = self.restaurantName!
+//        self.present(vc, animated: true, completion: nil)
+//    }
     
+    
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch(groupOrIndividual.selectedSegmentIndex){

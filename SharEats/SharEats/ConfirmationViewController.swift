@@ -27,8 +27,17 @@ class ConfirmationViewController: UINavigationController, UITableViewDataSource,
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        myOrderList.delegate = self
+        myOrderList.dataSource = self
+        myOrderList.register(CheckTableViewCell.self, forCellReuseIdentifier: "CheckTableViewCell2")
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        restaurantNameLabel.text = restaurantName
         subtotalLabel.text = priceToDisplay(price: totalPrice!)
-        restaurantNameLabel.text = restaurantName!
         
         let tax = Int(Double(totalPrice!) * 0.095)
         taxLabel.text = priceToDisplay(price: tax)
@@ -38,17 +47,11 @@ class ConfirmationViewController: UINavigationController, UITableViewDataSource,
         
         let total = tax + tip + totalPrice!
         totalPriceLabel.text = priceToDisplay(price: total)
-        
-        
-        myOrderList.delegate = self
-        myOrderList.dataSource = self
-        myOrderList.register(CheckTableViewCell.self, forCellReuseIdentifier: "CheckTableViewCell2")
-        
     }
     
-    @IBAction func backAction(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
-    }
+//    @IBAction func backAction(_ sender: UIButton) {
+//        self.navigationController?.popViewController(animated: true)
+//    }
     
     /*
     // MARK: - Navigation
