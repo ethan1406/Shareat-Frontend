@@ -324,10 +324,8 @@ class CheckViewController: UIViewController, UITableViewDataSource, UITableViewD
         if(segue.identifier == "ToConfrimationVC") {
             let vc:ConfirmationViewController = segue.destination as! ConfirmationViewController
             vc.myOrders = self.myOrders!
-            vc.totalPrice = self.totalPrice!
+            vc.totalPrice = self.myOrders!.reduce(0, { $0 + $1.price/$1.buyers!.count})
             vc.restaurantName = self.restaurantName!
-            print(self.totalPrice!)
-            print(self.restaurantName!)
         }
      }
 //    @IBAction func checkOut(_ sender: UIButton) {

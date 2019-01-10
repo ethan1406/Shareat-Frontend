@@ -35,7 +35,6 @@
 		876224B78E89DB0B72D44BEF /* Pods_SharEats_SharEatsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F3A7599CB88783F6BD8EECF /* Pods_SharEats_SharEatsTests.framework */; };
 		9561CA06E58776FC045FA800 /* Pods_SharEats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE21A73B55224535C1C0AAA6 /* Pods_SharEats.framework */; };
 		A21843DE214917540095D317 /* RestaurantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21843DD214917540095D317 /* RestaurantTableViewCell.swift */; };
-		A230D27E21E4D7D800BAF69F /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A230D27D21E4D7D800BAF69F /* ConfirmationViewController.swift */; };
 		A251A7FF213D1C3700AF1D52 /* RestaurantsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A251A7FE213D1C3700AF1D52 /* RestaurantsVC.swift */; };
 		A25B49402183084800CD3E1A /* SlideTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25B493F2183084800CD3E1A /* SlideTableViewController.swift */; };
 		A2B482DC21854BE50069579A /* CheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B482DB21854BE40069579A /* CheckViewController.swift */; };
@@ -44,6 +43,7 @@
 		A2D02C652148E112009BEA95 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D02C642148E112009BEA95 /* User.swift */; };
 		A2F9DD0621D1115300F66FB7 /* Buyer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F9DD0521D1115300F66FB7 /* Buyer.swift */; };
 		A2F9F4AC218858F400C99B13 /* CheckTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F9F4AB218858F400C99B13 /* CheckTableViewCell.swift */; };
+		A2FA0A2F21E738EA0079B550 /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FA0A2E21E738EA0079B550 /* ConfirmationViewController.swift */; };
 		A2FF5D5721A1053F00CF871C /* PushNoAnimationSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FF5D5621A1053F00CF871C /* PushNoAnimationSegue.swift */; };
 		A3270CB3AC1B592B6437A08D /* Pods_SharEatsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1DA055B125F7D992F0B7C5B /* Pods_SharEatsUITests.framework */; };
 		A97C2E4F6957735734D1CA87 /* Pods_SharEats_SharEatsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF5A5AC915417311748DD672 /* Pods_SharEats_SharEatsUITests.framework */; };
@@ -108,7 +108,6 @@
 		8F3A7599CB88783F6BD8EECF /* Pods_SharEats_SharEatsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SharEats_SharEatsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0587E91592074CF65F7B475 /* Pods-SharEats-SharEatsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharEats-SharEatsUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SharEats-SharEatsUITests/Pods-SharEats-SharEatsUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A21843DD214917540095D317 /* RestaurantTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantTableViewCell.swift; sourceTree = "<group>"; };
-		A230D27D21E4D7D800BAF69F /* ConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
 		A251A7FE213D1C3700AF1D52 /* RestaurantsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantsVC.swift; sourceTree = "<group>"; };
 		A25B493F2183084800CD3E1A /* SlideTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideTableViewController.swift; sourceTree = "<group>"; };
 		A2B482DB21854BE40069579A /* CheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +116,7 @@
 		A2D02C642148E112009BEA95 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A2F9DD0521D1115300F66FB7 /* Buyer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buyer.swift; sourceTree = "<group>"; };
 		A2F9F4AB218858F400C99B13 /* CheckTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckTableViewCell.swift; sourceTree = "<group>"; };
+		A2FA0A2E21E738EA0079B550 /* ConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
 		A2FF5D5621A1053F00CF871C /* PushNoAnimationSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNoAnimationSegue.swift; sourceTree = "<group>"; };
 		C762A5ABDDF6B315B2D48DF2 /* Pods-SharEats-SharEatsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharEats-SharEatsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SharEats-SharEatsTests/Pods-SharEats-SharEatsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D1DA055B125F7D992F0B7C5B /* Pods_SharEatsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SharEatsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -250,7 +250,7 @@
 				A25B493F2183084800CD3E1A /* SlideTableViewController.swift */,
 				A2B482DB21854BE40069579A /* CheckViewController.swift */,
 				A2F9F4AB218858F400C99B13 /* CheckTableViewCell.swift */,
-				A230D27D21E4D7D800BAF69F /* ConfirmationViewController.swift */,
+				A2FA0A2E21E738EA0079B550 /* ConfirmationViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -546,7 +546,7 @@
 				A2B482DE2185BB7F0069579A /* Order.swift in Sources */,
 				02BAFECE20F026E400E991FF /* SignUpVC.swift in Sources */,
 				02BD82A120AAE50B00B504D0 /* Restaurant.swift in Sources */,
-				A230D27E21E4D7D800BAF69F /* ConfirmationViewController.swift in Sources */,
+				A2FA0A2F21E738EA0079B550 /* ConfirmationViewController.swift in Sources */,
 				A2B482DC21854BE50069579A /* CheckViewController.swift in Sources */,
 				02BAFED020F02E0200E991FF /* Menu.swift in Sources */,
 				A2D02C652148E112009BEA95 /* User.swift in Sources */,

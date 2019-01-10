@@ -274,79 +274,17 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
     @IBAction func scanAction(_ sender: Any) {
         // Retrieve the QRCode content
         // By using the delegate pattern
-        //readerVC.delegate = self
+        readerVC.delegate = self
         
         // Presents the readerVC as modal form sheet
-        //        readerVC.modalPresentationStyle = .formSheet
-        //        present(readerVC, animated: true, completion: nil)
+        readerVC.modalPresentationStyle = .formSheet
+        present(readerVC, animated: true, completion: nil)
         
         let baseURLString = "https://www.shareatpay.com/party/5b346f48d585fb0e7d3ed3fc/6"
         guard
             !baseURLString.isEmpty,
             let url = URL(string: baseURLString) else {
                 return
-        }
-        
-        Alamofire.request(url, method: .get).responseJSON { (response) in
-            if(response.response?.statusCode == 200) {
-                guard let json = response.result.value as? [String: Any] else {
-                    return
-                }
-                let storyboard = UIStoryboard(name: "Search", bundle: nil)
-                let vc = storyboard.instantiateViewController(withIdentifier: "Check") as! CheckViewController
-                var orders = [Order]()
-                var myOrders = [Order]()
-                
-                for order in json["orders"] as! [[String : Any]] {
-                    let id = order["_id"] as! String
-                    let dishName = order["name"] as! String
-                    let price = order["price"] as! Int
-                    if order["buyers"] == nil {
-                        orders.append(Order(name: dishName, price: price, buyers: nil, orderId: id))
-                    } else {
-                        var buyers = [Buyer]()
-                        var isMyOrder = false
-                        for buyer in order["buyers"] as! [[String : Any]] {
-                            let firstName = buyer["firstName"] as! String,
-                            lastName = buyer["lastName"] as! String,
-                            userId = buyer["userId"] as! String
-                            if(userId ==  UserDefaults.standard.string(forKey: "userId")) {
-                                isMyOrder = true
-                            }
-                            buyers.append(Buyer(firstName:
-                                firstName,lastName: lastName, userId: userId, nameLabel: nil))
-                        }
-                        orders.append(Order(name: dishName, price: price, buyers: buyers, orderId: id))
-                        if(isMyOrder) {
-                            myOrders.append(Order(name: dishName, price: price, buyers: buyers, orderId: id))
-                        }
-                    }
-                }
-                
-                let party_id = json["_id"] as! String
-                let totalPrice = json["orderTotal"] as! Int
-                let restaurantName = json["restaurantName"] as! String
-                
-                vc.totalPrice = totalPrice
-                vc.orders = orders
-                vc.restaurantName = restaurantName
-                vc.myOrders = myOrders
-                vc.partyId = party_id
-                self.present(vc, animated: true, completion: nil)
-                
-                
-            } else if(response.response?.statusCode == 404){
-                
-                let tableNotFoundAlert = UIAlertController(title: "Table Not Found", message: "This table has not been established at the restaurant", preferredStyle: UIAlertControllerStyle.alert)
-                
-                tableNotFoundAlert.addAction(UIAlertAction(title: NSLocalizedString("OK!", comment: "Default action"), style: .default, handler: { _ in
-                    NSLog("The \"OK\" alert occured.")
-                }))
-                
-                self.present(tableNotFoundAlert, animated: true, completion: nil)
-                return
-            }
-            
         }
         
     }
@@ -374,6 +312,7 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
                     let storyboard = UIStoryboard(name: "Search", bundle: nil)
                     let vc = storyboard.instantiateViewController(withIdentifier: "Check") as! CheckViewController
                     var orders = [Order]()
+                    var myOrders = [Order]()
                     
                     for order in json["orders"] as! [[String : Any]] {
                         let id = order["_id"] as! String
@@ -383,20 +322,32 @@ class SearchVC: UIViewController,CLLocationManagerDelegate, MKMapViewDelegate, U
                             orders.append(Order(name: dishName, price: price, buyers: nil, orderId: id))
                         } else {
                             var buyers = [Buyer]()
+                            var isMyOrder = false
                             for buyer in order["buyers"] as! [[String : Any]] {
-                                buyers.append(Buyer(firstName: buyer["firstName"] as! String, lastName: buyer["lastName"] as! String, userId: buyer["orderId"] as! String, nameLabel: nil))
+                                let firstName = buyer["firstName"] as! String,
+                                lastName = buyer["lastName"] as! String,
+                                userId = buyer["userId"] as! String
+                                if(userId ==  UserDefaults.standard.string(forKey: "userId")) {
+                                    isMyOrder = true
+                                }
+                                buyers.append(Buyer(firstName:
+                                    firstName,lastName: lastName, userId: userId, nameLabel: nil))
                             }
                             orders.append(Order(name: dishName, price: price, buyers: buyers, orderId: id))
+                            if(isMyOrder) {
+                                myOrders.append(Order(name: dishName, price: price, buyers: buyers, orderId: id))
+                            }
                         }
                     }
                     
                     let party_id = json["_id"] as! String
-                    print("fine")
                     let totalPrice = json["orderTotal"] as! Int
-                    print(totalPrice)
+                    let restaurantName = json["restaurantName"] as! String
                     
                     vc.totalPrice = totalPrice
                     vc.orders = orders
+                    vc.restaurantName = restaurantName
+                    vc.myOrders = myOrders
                     vc.partyId = party_id
                     self.present(vc, animated: true, completion: nil)
                     
